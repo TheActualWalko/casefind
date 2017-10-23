@@ -1,0 +1,9 @@
+node_modules
+server/dist
+server/.apiConfig
+
+public/dist
+public/css
+public/config.codekit3
+
+dev-statics/clients

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Casefind</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Source+Sans+Pro" rel="stylesheet">
+    <style>
+      .background {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-image: url('bg.jpg');
+        z-index: -1;
+        background-size: cover;
+        background-position: 50% 50%;
+        opacity:0.25;
+      }
+      body {
+        color: white;
+        background: black;
+        font-weight: 100;
+        padding: 30px 60px;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+        overflow: hidden;
+      }
+      a, a:link, a:visited {
+        color: white;
+        text-decoration: none;
+      }
+      header {
+        font-family: 'Montserrat';
+      }
+      header a { 
+        float: right;
+        padding-top: 25px;
+        display: inline-block;
+      }
+      header h1 {
+        float: left;
+        font-size: 0;
+      }
+      header h1 img {
+        height: 80px;
+      }
+      header:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+      main {
+        position: fixed;
+        top: 50%;
+        left: 0;
+        right: 0;
+        margin-top: -120px;
+      }
+      main > * {
+        max-width: 730px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      h2 {
+        font-size: 40px;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        font-weight: 100;
+      }
+      h4 {
+        margin-top: 50px;
+        font-weight: 500;
+        color: #61cc96;
+        font-size: 24px;
+      }
+      .coming-soon {
+        margin-top: 10px;
+        background: rgba(0,0,0,0.8);
+        color: #fff;
+        padding: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1><img src="logo.svg" />Casefind</h1>
+      <a href="#">Contact Us</a>
+    </header>
+    <main>
+      <h2>Ain't nobody got time to read full-length judgements</h2>
+      <h4>Learn what matters about:</h4>
+      <div class="coming-soon">Oops. Looks like you're still casef**ked. We'll be live soon.</div>
+    </main>
+    <div class="background"></div>
+  </body>
+</html>
