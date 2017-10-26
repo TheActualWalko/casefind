@@ -7,6 +7,12 @@ const sendJSON = (res) => (result) => res.send(JSON.stringify(result, null, 2));
 const sendError = (res) => (error) => res.status(500).send(error);
 
 export default (IS_DEV, app, db) => {
+  
+  app.get('/search/:query', (req, res) => {
+    queries.search(req.params.query)(db)
+      .then(sendJSON(res));
+  });
+
   // app.get('/subject/:subjectID/students', (req, res)=>{
   //   queries
   //     .getStudentsForSubject(req.clientDomain, req.params.subjectID)(db)

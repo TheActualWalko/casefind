@@ -1,24 +1,28 @@
 import {one, many, chain} from './query';
+import getMatchRegions from './get-match-regions';
 
-// export const getStudentsForSubject = (domain, subjectName) => many(
-//   `
-//     SELECT id, name, email 
-//     FROM students 
-//     WHERE id IN (
-//       SELECT student_id 
-//       FROM student_subjects 
-//       WHERE subject_id IN (
-//         SELECT id FROM subjects WHERE name = ? 
-//       )
-//     )
-//     AND client_id IN (
-//       SELECT id 
-//       FROM clients 
-//       WHERE domain = ?
-//     );
-//   `,
-//   [subjectName, domain]
-// );
+export const search = (searchText) => many(
+  `
+    SELECT
+      cases.id AS id,
+      cases.name AS name,
+      cases.year AS year,
+      notes.content AS note
+    FROM cases
+    LEFT JOIN notes
+    ON (cases.id = notes.case_id)
+    WHERE cases.name LIKE ?
+    OR cases.year LIKE ?
+    OR notes.content LIKE ?;
+  `,
+  [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`],
+  (result) => ({
+    ...result,
+    nameHighlights: getMatchRegions(result.name, searchText),
+    yearHighlights: getMatchRegions(String(result.year), searchText),
+    noteHighlights: getMatchRegions(result.note, searchText)
+  })
+);
 
 export const track = (IS_DEV, ip, lat, lon, action, data) => one(
   `
