@@ -1,3 +1,27 @@
 import React from 'react';
+import logo from '../logo.svg';
+import './Home.css'
+import {Link} from 'react-router-dom';
+import SearchInput from './SearchInput';
 
-export default ()=><h1>Home</h1>
+export default ()=>(
+  <main>
+    <section class='hero'>
+      <header>
+        <img src={logo} className='logo' alt='Casefind' />
+        <nav>
+          <Link to='/contact-us'>Contact Us</Link>
+        </nav>
+      </header>
+      <h2>No one has time to read full-length judgements</h2>
+      <h3>Find out what you need to know about</h3>
+      <div className='search-input'><SearchInput /></div>
+    </section>
+    <section class='students'>
+      
+    </section>
+    <section class='science'>
+      
+    </section>
+  </main>  
+);

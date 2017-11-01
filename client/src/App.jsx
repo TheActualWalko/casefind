@@ -3,8 +3,6 @@ import { Provider } from 'react-redux';
 import { Route } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import store from './State/Store';
-import logo from './logo.svg';
-import './App.css';
 import Home from './Views/Home';
 import Search from './Views/Search';
 import ContactUs from './Views/ContactUs';

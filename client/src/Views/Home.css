@@ -1,0 +1,52 @@
+.logo {
+  max-width: 300px;
+}
+
+header {
+  padding: 20px 40px;
+}
+
+header nav {
+  float: right;
+  font-size: 20px;
+  padding: 30px 15px;
+}
+
+header img {
+  float: left;
+}
+
+header:after {
+  content: '';
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+h2 {
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 200;
+  font-size: 60px;
+  max-width: 750px;
+  margin: 150px auto 0 auto;
+}
+
+h3 {
+  font-size: 40px;
+  text-align: center;
+  color: #61cc96;
+}
+
+.hero {
+  min-height: 1000px;
+  background-image: url('../bg.jpg');
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.search-input {
+  margin: 0 auto;
+  max-width: 400px;
+}
