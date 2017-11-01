@@ -7,6 +7,7 @@ import logo from './logo.svg';
 import './App.css';
 import Home from './Views/Home';
 import Search from './Views/Search';
+import ContactUs from './Views/ContactUs';
 
 class App extends Component {
   store = null
@@ -21,6 +22,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/search" component={Search} />
             <Route exact path="/search/:query" component={Search} />
+            <Route exact path="/contact-us" component={ContactUs} />
           </div>
         </ConnectedRouter>
       </Provider>
