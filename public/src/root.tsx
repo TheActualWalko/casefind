@@ -1,11 +1,9 @@
-import React = require('react');
+import * as React from 'react';
 import { Provider } from 'react-redux';
-import store from './store';
 import { Route } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
-import Home from './home';
-
-const wrapper = ({children}) => <div>{children}</div>;
+import store from './state/store';
+import Home from './views/home';
 
 export default class App extends React.Component<{statics: any, history: any},{}>{
   store = null
@@ -13,7 +11,6 @@ export default class App extends React.Component<{statics: any, history: any},{}
     this.store = store(this.props.statics, this.props.history);
   }
   render() {
-    // for some reason these components aren't typechecking properly
     return (
       <Provider store={this.store}>
         <ConnectedRouter history={this.props.history}>

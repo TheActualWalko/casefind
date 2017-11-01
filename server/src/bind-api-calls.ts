@@ -3,12 +3,12 @@ import * as iplocation from 'iplocation';
 import * as queries from './queries';
 
 
-const sendJSON = (res) => (result) => res.send(JSON.stringify(result, null, 2));
+const sendJSON = (res) => (result) => res.send('<!DOCTYPE html><html><head></head><body><pre>'+JSON.stringify(result, null, 2)+'</pre></body></html>');
 const sendError = (res) => (error) => res.status(500).send(error);
 
 export default (IS_DEV, app, db) => {
   
-  app.get('/search/:query', (req, res) => {
+  app.get('/api/search/:query', (req, res) => {
     queries.search(req.params.query)(db)
       .then(sendJSON(res));
   });

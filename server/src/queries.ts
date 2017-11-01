@@ -1,5 +1,4 @@
 import {one, many, chain} from './query';
-import getMatchRegions from './get-match-regions';
 
 export const search = (searchText) => many(
   `
@@ -16,12 +15,24 @@ export const search = (searchText) => many(
     OR notes.content LIKE ?;
   `,
   [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`],
-  (result) => ({
-    ...result,
-    nameHighlights: getMatchRegions(result.name, searchText),
-    yearHighlights: getMatchRegions(String(result.year), searchText),
-    noteHighlights: getMatchRegions(result.note, searchText)
-  })
+  (result) => {
+    const noteMatchStart = result.note.indexOf(searchText);
+    return {
+      ...result,
+      note: noteMatchStart >= 0
+        ? `${
+            noteMatchStart > 15 ? '...' : ''
+          }${
+            result.note.slice(
+              Math.max(noteMatchStart - 15, 0),
+              noteMatchStart + searchText.length + 15
+            )
+          }${
+            noteMatchStart + searchText.length + 15 < result.note.length ? '...' : ''
+          }`
+        : null
+    }
+  }
 );
 
 export const track = (IS_DEV, ip, lat, lon, action, data) => one(

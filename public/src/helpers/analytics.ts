@@ -1,4 +1,4 @@
-import $ = require('jquery');
+import * as $ from 'jquery';
 import {debounce} from 'lodash';
 import {LOCATION_CHANGE} from 'react-router-redux';
 

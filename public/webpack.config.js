@@ -26,12 +26,16 @@ module.exports = {
   },
 
   resolve : {
-    extensions : ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.json']
+    extensions : ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.json'],
+    root: [path.resolve('./src')]
   },
 
   module : {
     loaders : [
-      { test: /\.ts(x?)$/, loaders : ['react-hot', 'ts'], include : path.join(__dirname, 'src') }
+      { 
+        test: /\.ts(x?)$/, loaders : ['react-hot', 'ts'], 
+        include : path.resolve('./src')
+      }
     ],
 
     noParse: /node_modules\/json-schema\/lib\/validate\.js/
