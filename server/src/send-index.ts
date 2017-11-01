@@ -5,8 +5,6 @@ import * as React from 'react';
 import app from '../../public/src/root';
 import createMemoryHistory from 'history/createMemoryHistory';
 
-const css = fs.readFileSync(path.resolve('../public/css/screen.css'), 'utf-8');
-
 export default (IS_DEV, db) => (req, res) => {
   Promise.all([
     Promise.resolve('Request for initial data goes here!')
@@ -34,9 +32,6 @@ export default (IS_DEV, db) => (req, res) => {
     <title>Casefind</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      ${css}
-    </style>
   </head>
   <body>
     <div id="react-container">${appRender}</div>

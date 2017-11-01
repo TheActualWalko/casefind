@@ -15,7 +15,8 @@ const trackLoad = (pathname) => {
   track('load', pathname);
 }
 
-export default ({dispatch, getState}) => (next) => (action) => {
+// there's a type error here without the any. not sure what it's all about.
+const middleware: any = ({dispatch, getState}) => (next) => (action) => {
   switch (action.type) {
     case LOCATION_CHANGE:
       trackLoad(action.payload.pathname);
@@ -23,3 +24,5 @@ export default ({dispatch, getState}) => (next) => (action) => {
   }
   next(action);
 }
+
+export default middleware;

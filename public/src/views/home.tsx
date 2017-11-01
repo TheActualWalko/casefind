@@ -1,6 +1,10 @@
-import * as React from 'react'
+import * as React from 'react';
+import Header from '../components/header';
 
 export default () => (
-  <div>
-  </div>
+  <main>
+    <section>
+      <Header onDark withNav />
+    </section>
+  </main>
 );

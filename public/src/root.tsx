@@ -14,9 +14,9 @@ export default class App extends React.Component<{statics: any, history: any},{}
     return (
       <Provider store={this.store}>
         <ConnectedRouter history={this.props.history}>
-          <main>
+          <div>
             <Route exact path="/" component={Home} />
-          </main>
+          </div>
         </ConnectedRouter>
       </Provider>
     );
