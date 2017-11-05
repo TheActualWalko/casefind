@@ -4,7 +4,7 @@ import analytics from './Middleware/Analytics';
 import reduxThunk from './Middleware/Thunk';
 
 import search from './Search/reducer';
-import notes from './Results/reducer';
+import notes from './Notes/reducer';
 
 export default (history) => {
   const reducer = combineReducers({
@@ -19,13 +19,7 @@ export default (history) => {
     analytics
   )(createStore)(
     reducer,
-    {
-      notes: {},
-      search: {
-        query: '',
-        results: {}
-      }
-    },
+    undefined,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
 };

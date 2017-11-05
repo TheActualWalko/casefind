@@ -3,14 +3,17 @@ import * as iplocation from 'iplocation';
 import * as queries from './queries';
 
 
-const sendJSON = (res) => (result) => res.json(result);
+const sendJSON = (res) => (result) => {
+  console.log(result);
+  res.json(result);
+};
 const sendError = (res) => (error) => res.status(500).send(error);
 
 export default (IS_DEV, app, db) => {
-  
   app.get('/api/search/:query', (req, res) => {
-    queries.search(req.params.query)(db)
-      .then(sendJSON(res));
+    queries.search(req.params.query, JSON.parse(req.query.types))(db)
+      .then(sendJSON(res))
+      .catch((e) => console.error(e))
   });
 
   app.post('/track', (req, res)=>{

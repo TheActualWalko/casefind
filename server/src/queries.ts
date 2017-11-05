@@ -1,41 +1,32 @@
 import {one, many, chain} from './query';
 
-export const search = (searchText) => many(
-  `
-    SELECT
-      notes.id AS id,
-      cases.id AS caseId,
-      cases.name AS name,
-      cases.year AS year,
-      notes.content AS note,
-      notes.type AS type
-    FROM cases
-    LEFT JOIN notes
-    ON (cases.id = notes.case_id)
-    WHERE cases.name LIKE ?
-    OR cases.year LIKE ?
-    OR notes.content LIKE ?;
-  `,
-  [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`],
-  // (result) => {
-  //   const noteMatchStart = result.note.indexOf(searchText);
-  //   return {
-  //     ...result,
-  //     note: noteMatchStart >= 0
-  //       ? `${
-  //           noteMatchStart > 15 ? '...' : ''
-  //         }${
-  //           result.note.slice(
-  //             Math.max(noteMatchStart - 15, 0),
-  //             noteMatchStart + searchText.length + 15
-  //           )
-  //         }${
-  //           noteMatchStart + searchText.length + 15 < result.note.length ? '...' : ''
-  //         }`
-  //       : null
-  //   }
-  // }
-);
+export const search = (searchText, types) => {
+  const typeStatements = ['fact', 'decision', 'other']
+    .filter(t => types[t] === false)
+    .map(t => `notes.type != ${t}`);
+
+  const typeString = typeStatements.length === 0 
+    ? ';' 
+    : `AND ${typeStatements.join(' OR ')};`;
+
+  return many(
+    `
+      SELECT
+        notes.id AS id,
+        cases.id AS caseId,
+        cases.name AS name,
+        cases.year AS year,
+        notes.content AS note,
+        notes.type AS type
+      FROM cases
+      LEFT JOIN notes
+      ON (cases.id = notes.case_id)
+      WHERE (cases.name LIKE ?)
+      ${typeString}
+    `,
+    [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`]
+  );
+};
 
 export const track = (IS_DEV, ip, lat, lon, action, data) => one(
   `

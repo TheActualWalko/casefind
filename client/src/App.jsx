@@ -9,7 +9,7 @@ import ContactUs from './Views/ContactUs';
 import { changeQuery } from './State/Search/actions';
 
 const getQuery = (url) => url.includes('/search/')
-  ? url.split('/search/')[1].split('?')[0]
+  ? decodeURIComponent(url.split('/search/')[1].split('?')[0])
   : '';
 
 class App extends Component {

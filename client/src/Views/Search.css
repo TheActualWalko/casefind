@@ -95,6 +95,7 @@ aside {
   font-size: 16px;
   font-weight: 600;
   text-align: right;
+  color: white;
 }
 
 .results li header span {
@@ -119,11 +120,6 @@ aside {
   margin-right: 2px;
 }
 
-.results li.note-full-text header {
-  background-color: #d41e9a;
-  color: white;
-}
-
 .results li h5 {
   font-size: 22px;
   font-weight: 600;
@@ -137,6 +133,17 @@ aside {
   height: 4px;
 }
 
+.results li.note-full-text header,
 .results li.note-full-text h5:after {
   background-color: #d41e9a;
+}
+
+.results li.note-decision header,
+.results li.note-decision h5:after {
+  background-color: #efa751;
+}
+
+.results li.note-fact header,
+.results li.note-fact h5:after {
+  background-color: #27d6c3;
 }
