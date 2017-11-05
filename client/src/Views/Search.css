@@ -1,0 +1,142 @@
+.search-header {
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 0 80px 0 rgba(0,0,0,0.3);
+  z-index: 20;
+}
+
+.search {
+  background-color: #eee;
+  padding-top: 80px;
+  position: fixed;
+  top: 0;
+  left: 320px;
+  right: 0;
+  bottom: 0;
+  color: #222;
+  overflow: scroll;
+}
+
+.search-header .logo {
+  height: 40px;
+}
+
+.search-header .search-input {
+  float: right;
+  padding: 2px 0;
+}
+
+.search-header .search-input input {
+  background-color: #eee;
+}
+
+aside {
+  background-color: #222;
+  width: 320px;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  bottom: 0;
+}
+
+.results {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 30px 40px;
+  list-style-type: none;
+  font-size: 22px;
+}
+.results > * {
+  padding: 0;
+  margin: 0 0 30px 0;
+}
+
+.results lh {
+  display: block;
+  margin-bottom: 25px;
+}
+
+.results lh em {
+  color: #d41e9a;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.results lh strong {
+  font-weight: 600;
+}
+
+.results li {
+  background-color: white;
+  padding-bottom: 20px;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2);
+}
+
+.results li > * {
+  padding: 0 40px;
+  margin: 0 0 20px 0;
+}
+
+.results li > p {
+  text-align: justify;
+  font-family: 'PT Serif';
+  -webkit-font-smoothing: default;
+  font-size: 18px;
+  line-height: 150%;
+}
+
+.results li header {
+  padding: 10px 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.results li header span {
+  display: inline-block;
+  padding: 7px 0;
+}
+
+.results li header button {
+  font-size: 18px;
+  vertical-align: middle;
+  color: white;
+  float: left;
+  background: transparent;
+  margin: 5px 20px 0 0;
+  padding: 0;
+}
+
+.results li header button img {
+  height: 30px;
+  vertical-align: middle;
+  margin-top: -4px;
+  margin-right: 2px;
+}
+
+.results li.note-full-text header {
+  background-color: #d41e9a;
+  color: white;
+}
+
+.results li h5 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.results li h5:after {
+  content: '';
+  display: block;
+  margin-top: 15px;
+  width: 40px;
+  height: 4px;
+}
+
+.results li.note-full-text h5:after {
+  background-color: #d41e9a;
+}

@@ -14,3 +14,15 @@ body {
   -webkit-font-smoothing: antialiased;
   color: white;
 }
+
+button, input {
+  font-family: inherit;
+}
+
+input:focus {
+  outline: 0;
+}
+
+button {
+  border: none;
+}

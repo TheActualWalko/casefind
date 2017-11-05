@@ -3,10 +3,12 @@ import {one, many, chain} from './query';
 export const search = (searchText) => many(
   `
     SELECT
-      cases.id AS id,
+      notes.id AS id,
+      cases.id AS caseId,
       cases.name AS name,
       cases.year AS year,
-      notes.content AS note
+      notes.content AS note,
+      notes.type AS type
     FROM cases
     LEFT JOIN notes
     ON (cases.id = notes.case_id)
@@ -15,24 +17,24 @@ export const search = (searchText) => many(
     OR notes.content LIKE ?;
   `,
   [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`],
-  (result) => {
-    const noteMatchStart = result.note.indexOf(searchText);
-    return {
-      ...result,
-      note: noteMatchStart >= 0
-        ? `${
-            noteMatchStart > 15 ? '...' : ''
-          }${
-            result.note.slice(
-              Math.max(noteMatchStart - 15, 0),
-              noteMatchStart + searchText.length + 15
-            )
-          }${
-            noteMatchStart + searchText.length + 15 < result.note.length ? '...' : ''
-          }`
-        : null
-    }
-  }
+  // (result) => {
+  //   const noteMatchStart = result.note.indexOf(searchText);
+  //   return {
+  //     ...result,
+  //     note: noteMatchStart >= 0
+  //       ? `${
+  //           noteMatchStart > 15 ? '...' : ''
+  //         }${
+  //           result.note.slice(
+  //             Math.max(noteMatchStart - 15, 0),
+  //             noteMatchStart + searchText.length + 15
+  //           )
+  //         }${
+  //           noteMatchStart + searchText.length + 15 < result.note.length ? '...' : ''
+  //         }`
+  //       : null
+  //   }
+  // }
 );
 
 export const track = (IS_DEV, ip, lat, lon, action, data) => one(

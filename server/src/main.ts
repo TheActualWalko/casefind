@@ -10,7 +10,6 @@ import * as morgan from 'morgan';
 import * as proxy from 'express-http-proxy';
 
 import bindApiCalls from './bind-api-calls';
-import sendIndex from './send-index';
 
 const {
   MYSQL_HOST, 
@@ -37,9 +36,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 bindApiCalls(IS_DEV, app, db);
 
-app.get('/', sendIndex(IS_DEV, db));
-if (process.argv[2] === 'dev') {
-  app.get('*', proxy('localhost:3002'));
+if (IS_DEV) {
+  app.get('*', proxy('localhost:3000'));
 } else {
   app.use(express.static('../public'));
 }

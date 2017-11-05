@@ -2,11 +2,11 @@ import React from 'react';
 import logo from '../logo.svg';
 import './Home.css'
 import {Link} from 'react-router-dom';
-import SearchInput from './SearchInput';
+import SearchInput from '../Components/SearchInput';
 
 export default ()=>(
   <main>
-    <section class='hero'>
+    <section className='hero'>
       <header>
         <img src={logo} className='logo' alt='Casefind' />
         <nav>
@@ -15,12 +15,12 @@ export default ()=>(
       </header>
       <h2>No one has time to read full-length judgements</h2>
       <h3>Find out what you need to know about</h3>
-      <div className='search-input'><SearchInput /></div>
+      <div className='search-input'><SearchInput isDummy /></div>
     </section>
-    <section class='students'>
+    <section className='students'>
       
     </section>
-    <section class='science'>
+    <section className='science'>
       
     </section>
   </main>  

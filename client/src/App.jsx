@@ -6,11 +6,22 @@ import store from './State/Store';
 import Home from './Views/Home';
 import Search from './Views/Search';
 import ContactUs from './Views/ContactUs';
+import { changeQuery } from './State/Search/actions';
+
+const getQuery = (url) => url.includes('/search/')
+  ? url.split('/search/')[1].split('?')[0]
+  : '';
 
 class App extends Component {
   store = null
   componentWillMount() {
     this.store = store(this.props.history);
+  }
+  componentDidMount() {
+    const initialQuery = getQuery(window.location.href);
+    if (initialQuery) {
+      this.store.dispatch(changeQuery(initialQuery));
+    }
   }
   render() {
     return (

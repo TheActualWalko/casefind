@@ -2,21 +2,21 @@
   max-width: 300px;
 }
 
-header {
+main > header, .hero > header {
   padding: 20px 40px;
 }
 
-header nav {
+.hero header nav {
   float: right;
   font-size: 20px;
   padding: 30px 15px;
 }
 
-header img {
+.hero header img {
   float: left;
 }
 
-header:after {
+.hero header:after {
   content: '';
   display: block;
   height: 0;

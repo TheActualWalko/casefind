@@ -1,0 +1,28 @@
+.SearchInput {
+  position: relative;
+}
+
+.SearchInput input, .SearchInput button {
+  font-size: 20px;
+  border: none;
+}
+
+.SearchInput button img {
+  height: 100%;
+  width: auto;
+}
+
+.SearchInput input {
+  width: 100%;
+  padding: 5px 50px 5px 10px;
+}
+
+.SearchInput button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  padding: 2px 0 0 0;
+  background-color: #61cc96;
+}
