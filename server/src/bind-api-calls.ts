@@ -3,15 +3,36 @@ import * as iplocation from 'iplocation';
 import * as queries from './queries';
 
 
-const sendJSON = (res) => (result) => {
-  console.log(result);
-  res.json(result);
-};
+const sendJSON = (res) => (result) => res.json(result);
 const sendError = (res) => (error) => res.status(500).send(error);
 
 export default (IS_DEV, app, db) => {
   app.get('/api/search/:query', (req, res) => {
     queries.search(req.params.query, JSON.parse(req.query.types))(db)
+      .then((result) => {
+        const casesById = {};
+        result.forEach((r) => {
+          if (!casesById[r.caseId]) {
+            casesById[r.caseId] = {
+              id: r.caseId,
+              name: r.name,
+              year: r.year,
+              notes: []
+            }
+          }
+          casesById[r.caseId].notes.push({
+            type: r.type,
+            content: r.content
+          });
+        });
+        return Object
+          .keys(casesById).map(id => casesById[id])
+          .sort((a, b) => {
+            if (a.name.toLowerCase().indexOf(req.params.query.toLowerCase()) === 0) { return -1 };
+            if (b.name.toLowerCase().indexOf(req.params.query.toLowerCase()) === 0) { return 1 };
+            return b.year - a.year;
+          });
+      })
       .then(sendJSON(res))
       .catch((e) => console.error(e))
   });

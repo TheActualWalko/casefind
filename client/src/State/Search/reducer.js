@@ -3,7 +3,7 @@ import { getResultKey } from './helpers';
 export default (state = {
   query: '',
   types: {
-    fact: true,
+    facts: true,
     decision: true,
     other: true
   },
@@ -11,7 +11,6 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case 'TOGGLE_TYPE':
-      const nextShouldIncludeType = !state.types.includes(action.payload);
       return {
         ...state, 
         types: {
@@ -29,7 +28,7 @@ export default (state = {
         ...state, 
         results: {
           ...state.results, 
-          [getResultKey(action.payload.query, action.payload.types)]: Object.keys(action.payload.results)
+          [getResultKey(action.payload.query, action.payload.types)]: action.payload.results
         }
       };
     default:

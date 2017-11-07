@@ -10,13 +10,15 @@ const runSearchQuery = (dispatch, getState) => {
   })
 };
 
+const runSearchQueryDebounced = debounce(runSearchQuery, 250);
+
 export const changeQuery = (query) => (dispatch, getState) => {
   dispatch({
     type: 'CHANGE_QUERY',
     payload: query
   });
   if (query.length >= 3) {
-    debounce(runSearchQuery, 250)(dispatch, getState);
+    runSearchQueryDebounced(dispatch, getState);
   }
 };
   
@@ -25,7 +27,7 @@ export const toggleType = (type) => (dispatch, getState) => {
     type: 'TOGGLE_TYPE',
     payload: type
   });
-  debounce(runSearchQuery, 250)(dispatch, getState);
+  runSearchQueryDebounced(dispatch, getState);
 };
 
 export const receiveResults = (query, types, results) => ({

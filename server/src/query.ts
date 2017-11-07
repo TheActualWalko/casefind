@@ -4,7 +4,7 @@ export const many = (queryText, parameters, transform = (x) => x) => (db, debug=
   if (debug) {
     console.log(queryText, parameters);
   }
-  return new Promise((resolve, reject) => {
+  return new Promise<any>((resolve, reject) => {
     db.query(queryText, parameters, (err, result, fields)=>{
       if (debug) {
         console.log(err, result, fields);

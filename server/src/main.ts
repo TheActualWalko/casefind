@@ -36,10 +36,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 bindApiCalls(IS_DEV, app, db);
 
-if (IS_DEV) {
+if (IS_DEV && process.argv[2] !== 'prod') {
   app.get('*', proxy('localhost:3000'));
 } else {
-  app.use(express.static('../public'));
+  const reactRouterRoutes = [
+    '/',
+    '/contact',
+    '/search',
+    '/search/*',
+    '/case/*'
+  ];
+  reactRouterRoutes.forEach((r) => {
+    app.get(r, (req, res, next) => res.sendFile(path.resolve(__dirname, '../../client/build/index.html')));
+  });
+
+  app.get('*', express.static(path.resolve(__dirname, '../../client/build')));
 }
 
 db.connect((err) => {

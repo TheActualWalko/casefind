@@ -1,13 +1,16 @@
 import {one, many, chain} from './query';
 
+const previewWords = 30;
+const previewBubbleCharacters = 50;
+
 export const search = (searchText, types) => {
-  const typeStatements = ['fact', 'decision', 'other']
+  const typeStatements = ['facts', 'decision', 'other']
     .filter(t => types[t] === false)
-    .map(t => `notes.type != ${t}`);
+    .map(t => `notes.type != "${t}"`);
 
   const typeString = typeStatements.length === 0 
-    ? ';' 
-    : `AND ${typeStatements.join(' OR ')};`;
+    ? '' 
+    : `AND ${typeStatements.join(' AND ')}`;
 
   return many(
     `
@@ -16,15 +19,39 @@ export const search = (searchText, types) => {
         cases.id AS caseId,
         cases.name AS name,
         cases.year AS year,
-        notes.content AS note,
+        notes.content AS content,
         notes.type AS type
       FROM cases
       LEFT JOIN notes
       ON (cases.id = notes.case_id)
-      WHERE (cases.name LIKE ?)
+      WHERE (
+        cases.name LIKE ?
+        OR notes.content LIKE ?
+        OR cases.year LIKE ?
+      )
       ${typeString}
+      LIMIT 11;
     `,
-    [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`]
+    [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`],
+    (result) => {
+      const noteMatchStart = result.content.indexOf(searchText) || 0;
+      const contentCore = result.content
+        .slice(Math.max(0, noteMatchStart - previewBubbleCharacters))
+        .split(' ')
+        .slice(0, previewWords)
+        .join(' ');
+      const content = `${
+        result.content.startsWith(contentCore) ? '' : '...'
+      }${
+        contentCore
+      }${
+        result.content.endsWith(contentCore) ? '' : '...'
+      }`;
+      return {
+        ...result,
+        content
+      }
+    }
   );
 };
 

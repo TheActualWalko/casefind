@@ -12,11 +12,6 @@ export const types = createSelector(
   ({ types }) => types
 );
 export const results = createSelector(
-  [notes, search],
-  (notes, { results = {}, query, types }) => {
-    const resultKey = getResultKey(query, types);
-    return !!results[resultKey]
-      ? results[resultKey].map(id => notes[id])
-      : null
-  }
+  search,
+  ({ results, query, types }) => results[getResultKey(query, types)]
 );
