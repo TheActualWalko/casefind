@@ -34,7 +34,7 @@ export const search = (searchText, types) => {
     `,
     [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`],
     (result) => {
-      const noteMatchStart = result.content.indexOf(searchText) || 0;
+      const noteMatchStart = result.content.toLowerCase().indexOf(searchText.toLowerCase()) || 0;
       const contentCore = result.content
         .slice(Math.max(0, noteMatchStart - previewBubbleCharacters))
         .split(' ')
