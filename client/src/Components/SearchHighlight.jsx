@@ -2,7 +2,7 @@ import React from 'react';
 import './SearchHighlight.css';
 
 export default ({text, query}) => {
-  const queryStart = String(text).toLowerCase().indexOf(query.toLowerCase());
+  const queryStart = text.toLowerCase().indexOf(query.toLowerCase());
   if (query === '' || queryStart === -1) {
     return text;
   } else {
