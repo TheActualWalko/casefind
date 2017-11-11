@@ -2,10 +2,11 @@ import * as $ from 'jquery';
 import {debounce} from 'lodash';
 
 const runSearchQuery = (dispatch, getState) => {
-  const {query, types} = getState().search;
+  const {apiRoot, search} = getState();
+  const {query, types} = search;
   $.ajax({
     method: 'GET',
-    url: `http://localhost:1337/api/search/${query}?types=${JSON.stringify(types)}`,
+    url: `${apiRoot}/api/search/${query}?types=${JSON.stringify(types)}`,
     success: (results) => dispatch(receiveResults(query, types, results))
   })
 };

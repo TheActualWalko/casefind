@@ -5,10 +5,11 @@ import reduxThunk from './Middleware/Thunk';
 
 import search from './Search/reducer';
 
-export default (history) => {
+export default (history, apiRoot) => {
   const reducer = combineReducers({
     routing,
-    search
+    search,
+    apiRoot: () => apiRoot
   });
 
   return applyMiddleware(

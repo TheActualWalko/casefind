@@ -15,7 +15,7 @@ const getQuery = (url) => url.includes('/search/')
 class App extends Component {
   store = null
   componentWillMount() {
-    this.store = store(this.props.history);
+    this.store = store(this.props.history, this.props.apiRoot);
   }
   componentDidMount() {
     const initialQuery = getQuery(window.location.href);
