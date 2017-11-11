@@ -4,13 +4,11 @@ import analytics from './Middleware/Analytics';
 import reduxThunk from './Middleware/Thunk';
 
 import search from './Search/reducer';
-import notes from './Notes/reducer';
 
 export default (history) => {
   const reducer = combineReducers({
     routing,
-    search,
-    notes
+    search
   });
 
   return applyMiddleware(

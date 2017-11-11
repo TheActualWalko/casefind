@@ -5,7 +5,7 @@ const runSearchQuery = (dispatch, getState) => {
   const {query, types} = getState().search;
   $.ajax({
     method: 'GET',
-    url: `/api/search/${query}?types=${JSON.stringify(types)}`,
+    url: `http://localhost:1337/api/search/${query}?types=${JSON.stringify(types)}`,
     success: (results) => dispatch(receiveResults(query, types, results))
   })
 };

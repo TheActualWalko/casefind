@@ -21,6 +21,7 @@ export default (IS_DEV, app, db) => {
             }
           }
           casesById[r.caseId].notes.push({
+            id: r.id,
             type: r.type,
             content: r.content
           });

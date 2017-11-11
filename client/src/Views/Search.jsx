@@ -35,31 +35,31 @@ const renderHeading = (results, query) => {
 }
 
 const renderNote = (note, query) => (
-  <article className={`note-${note.type}`}>
+  <div key={note.id} className={`note-${note.type}`}>
     <h5>{note.type}</h5>
     {
       note.content
         .split('\n')
-        .map(t => {
-          const queryStart = t.toLowerCase().indexOf(query.toLowerCase());
+        .map((text, index) => {
+          const queryStart = text.toLowerCase().indexOf(query.toLowerCase());
           if (queryStart === -1) {
-            return <p>{t}</p>;
+            return <p key={index}>{text}</p>;
           } else {
             return (
-              <p>
-                {t.slice(0, queryStart)}
-                <span className='search-highlight'>{t.slice(queryStart, queryStart + query.length)}</span>
-                {t.slice(queryStart + query.length)}
+              <p key={index}>
+                {text.slice(0, queryStart)}
+                <span className='search-highlight'>{text.slice(queryStart, queryStart + query.length)}</span>
+                {text.slice(queryStart + query.length)}
               </p>
             )
           }
         })
     }
-  </article>
+  </div>
 );
 
 const renderResult = (result, query, push) => (
-  <li>
+  <li className='result' key={result.id}>
     <h4><a href={`/search/${result.name}`}>{result.name} [{result.year}]</a></h4>
     {result.notes.map((note) => renderNote(note, query))}
   </li>
@@ -98,7 +98,7 @@ export default connect(
       </ul>
     </aside>
     <ul className='results'>
-      <lh>{renderHeading(results, query)}</lh>
+      <li className='list-heading'>{renderHeading(results, query)}</li>
       {results ? results.map((result) => renderResult(result, query, push)) : null}
     </ul>
   </main>

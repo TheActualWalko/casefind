@@ -21,6 +21,15 @@ const {
 } = JSON.parse(fs.readFileSync('.apiConfig', 'utf8'));
 
 const app = express();
+
+if (IS_DEV) {
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next()
+  });
+}
+
 const db = mysql.createConnection({
   host: MYSQL_HOST,
   user: MYSQL_USERNAME,
@@ -36,9 +45,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 bindApiCalls(IS_DEV, app, db);
 
-if (IS_DEV && process.argv[2] !== 'prod') {
-  app.get('*', proxy('localhost:3000'));
-} else {
+if (!IS_DEV || process.argv[2] === 'prod') {
   const reactRouterRoutes = [
     '/',
     '/contact',
