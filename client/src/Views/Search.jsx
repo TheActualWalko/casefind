@@ -1,8 +1,7 @@
 import React from 'react';
 import SearchInput from '../Components/SearchInput';
+import Case from '../Components/Case';
 import logo from '../logo-dark.svg';
-import thumbsUp from '../thumbs-up.svg';
-import thumbsDown from '../thumbs-down.svg';
 import './Search.css'
 import { results, query, types } from '../State/Search/selectors';
 import { toggleType } from '../State/Search/actions';
@@ -33,38 +32,6 @@ const renderHeading = (results, query) => {
     );
   }
 }
-
-const renderNote = (note, query) => (
-  <div key={note.id} className={`note-${note.type}`}>
-    <h5>{note.type}</h5>
-    {
-      note.content
-        .split('\n')
-        .map((text, index) => {
-          const queryStart = text.toLowerCase().indexOf(query.toLowerCase());
-          if (queryStart === -1) {
-            return <p key={index}>{text}</p>;
-          } else {
-            return (
-              <p key={index}>
-                {text.slice(0, queryStart)}
-                <span className='search-highlight'>{text.slice(queryStart, queryStart + query.length)}</span>
-                {text.slice(queryStart + query.length)}
-              </p>
-            )
-          }
-        })
-    }
-  </div>
-);
-
-const renderResult = (result, query, push) => (
-  <li className='result' key={result.id}>
-    <h4><a href={`/search/${result.name}`}>{result.name} [{result.year}]</a></h4>
-    {result.notes.map((note) => renderNote(note, query))}
-  </li>
-);
-
 export default connect(
   createStructuredSelector({results, query, types}),
   { push, toggleType }
@@ -99,7 +66,11 @@ export default connect(
     </aside>
     <ul className='results'>
       <li className='list-heading'>{renderHeading(results, query)}</li>
-      {results ? results.map((result) => renderResult(result, query, push)) : null}
+      {
+        results 
+        ? results.map((result) => <li key={result.id}><Case showQuery id={result.id} /></li>)
+        : null
+      }
     </ul>
   </main>
 ));

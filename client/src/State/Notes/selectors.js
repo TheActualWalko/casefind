@@ -1,3 +1,1 @@
-import { createSelector } from 'reselect';
-
-export const notes = (state) => state.notes || {};
+export const note = (state, {id}) => state.notes[id]

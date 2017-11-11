@@ -1,0 +1,1 @@
+export const caseSelector = (state, {id}) => state.cases[id];

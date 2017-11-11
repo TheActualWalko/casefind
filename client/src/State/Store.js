@@ -4,11 +4,15 @@ import analytics from './Middleware/Analytics';
 import reduxThunk from './Middleware/Thunk';
 
 import search from './Search/reducer';
+import notes from './Notes/reducer';
+import cases from './Cases/reducer';
 
 export default (history, apiRoot) => {
   const reducer = combineReducers({
     routing,
     search,
+    notes,
+    cases,
     apiRoot: () => apiRoot
   });
 

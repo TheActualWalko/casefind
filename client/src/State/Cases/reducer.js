@@ -1,15 +1,15 @@
+import { mapCaseResult } from './helpers';
+
 export default (state = {}, action) => {
   switch (action.type) {
     case 'RECEIVE_RESULTS':
-      const notesById = {};
+      const casesById = {};
       action.payload.results
-        .map((caseResult) => caseResult.notes)
-        .forEach((notes) => 
-          notes.forEach((note) => notesById[note.id] = note)
-        );
+        .map(mapCaseResult)
+        .forEach((caseResult) => casesById[caseResult.id] = caseResult);
       return {
         ...state,
-        ...notesById
+        ...casesById
       };
     default:
       return state;

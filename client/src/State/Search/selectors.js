@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { notes } from '../Notes/selectors';
 import { getResultKey } from './helpers';
 
 export const search = (state) => state.search || {};

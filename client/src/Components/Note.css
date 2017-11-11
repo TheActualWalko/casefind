@@ -1,0 +1,34 @@
+.note h5 {
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-block;
+  margin: 0;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Montserrat';
+  padding: 3px 5px  ;
+}
+
+.note p {
+  text-align: justify;
+  font-family: 'PT Serif';
+  -webkit-font-smoothing: default;
+  font-size: 18px;
+  line-height: 150%;
+}
+
+.note.other h5 {
+  background-color: #d41e9a;
+  border-color: #d41e9a;
+}
+
+.note.decision h5 {
+  background-color: #efa751;
+  border-color: #efa751;
+}
+
+.note.facts h5 {
+  background-color: #27d6c3;
+  border-color: #27d6c3;
+}
