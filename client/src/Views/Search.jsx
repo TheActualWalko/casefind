@@ -12,7 +12,7 @@ const renderHeading = (results, query) => {
   if (!results && !query) {
     return null;
   } else if (!results && !!query) {
-    return <span>Searching for for "<em>{query}</em>"</span>
+    return <span>Searching for "<em>{query}</em>"</span>
   } else if (results.length === 0) {
     return (
       <span>Found no results for "<em>{query}</em>"</span>

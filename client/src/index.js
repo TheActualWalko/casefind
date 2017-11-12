@@ -5,5 +5,5 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import createBrowserHistory from 'history/createBrowserHistory';
 
-ReactDOM.render(<App history={createBrowserHistory()} apiRoot='http://localhost:1337' />, document.getElementById('root'));
+ReactDOM.render(<App history={createBrowserHistory()} apiRoot='http://casefind.org' />, document.getElementById('root'));
 registerServiceWorker();
