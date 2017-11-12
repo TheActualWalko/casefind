@@ -3,6 +3,10 @@
   padding-bottom: 20px;
   box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2);
   padding: 30px 0 10px 0;
+  max-width: 760px;
+  font-size: 22px;
+  margin: 0 auto 30px auto;
+  position: relative;
 }
 
 .case > * {
@@ -40,4 +44,36 @@
   vertical-align: middle;
   margin-top: -4px;
   margin-right: 2px;
+}
+
+.expand-prompt:hover, .expand-button:hover {
+  cursor: pointer;
+}
+
+.expand-prompt:hover {
+  text-decoration: underline;
+}
+
+.expand-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 40px;
+  width: 40px;
+  background: transparent;
+  border-left: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 0;
+  font-size: 22px;
+}
+
+.expand-button:focus {
+  outline: 0;
+}
+
+.expand-prompt {
+  font-size: 16px;
+  color: #777;
+  font-style: italic;
+  display:inline-block;
 }

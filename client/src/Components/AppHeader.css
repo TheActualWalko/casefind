@@ -1,0 +1,22 @@
+.app-header {
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 0 80px 0 rgba(0,0,0,0.3);
+  z-index: 20;
+}
+
+.app-header .logo {
+  height: 40px;
+}
+
+.app-header .search-input {
+  float: right;
+  padding: 2px 0;
+}
+
+.app-header .search-input input {
+  background-color: #eee;
+}

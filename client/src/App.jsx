@@ -5,6 +5,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import store from './State/Store';
 import Home from './Views/Home';
 import Search from './Views/Search';
+import Case from './Views/Case';
 import ContactUs from './Views/ContactUs';
 import { changeQuery } from './State/Search/actions';
 
@@ -31,6 +32,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/search" component={Search} />
             <Route exact path="/search/:query" component={Search} />
+            <Route exact path="/case/:id" component={Case} />
             <Route exact path="/contact-us" component={ContactUs} />
           </div>
         </ConnectedRouter>

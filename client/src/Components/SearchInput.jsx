@@ -11,33 +11,26 @@ export default connect(
   createStructuredSelector({ query }),
   { changeQuery, push }
 )(
-  class SearchInput extends React.Component{
+  class SearchInput extends React.Component {
     componentDidMount() {
-      this.input.setSelectionRange(this.props.query.length, this.props.query.length)
+      if (!this.props.isDummy) this.input.setSelectionRange(this.props.query.length, this.props.query.length)
     }
     render() {
       const { isDummy, query, changeQuery, push } = this.props;
       return (
         <div className='SearchInput'>
-          {
-            query.length > 0 && isDummy 
-            ? null 
-            : <input
-              val={query}
-              value={query}
-              ref={(el) => this.input = el}
-              onKeyDown={(e)=>{
-                if (isDummy && !e.ctrlKey && !e.altKey && !e.metaKey && e.keyCode >= 48 && e.keyCode <= 90) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  changeQuery(e.key)
-                  push(`/search`);
-                }
-              }}
-              onChange={(e) => changeQuery(e.target.value)} 
-              autoFocus 
-            />
-          }
+          <input
+            val={query}
+            value={query}
+            ref={(el) => this.input = el}
+            onKeyDown={(e)=>{
+              if (isDummy && !e.ctrlKey && !e.altKey && !e.metaKey && e.keyCode >= 48 && e.keyCode <= 90) {
+                setTimeout(()=>push(`/search`));
+              }
+            }}
+            onChange={(e) => changeQuery(e.target.value)} 
+            autoFocus={!isDummy}
+          />
           <button onClick={(e) => push(`/search/${query}`)}><img src={gavel} alt='Go!'/></button>
         </div>
       );

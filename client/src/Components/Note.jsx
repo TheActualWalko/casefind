@@ -8,13 +8,19 @@ import './Note.css';
 
 export default connect(
   createStructuredSelector({ query, note })
-)(({ showQuery, expanded, query, note: { id, type, content } }) => (
-  <section className={`note ${type}`}>
-    <h5>{type}</h5>
-    {
-      content
-        .split('\n')
-        .map((text, index) => <p key={index}><SearchHighlight text={text} query={showQuery ? query : ''} /></p>)
-    }
-  </section>
-));
+)(({ showQuery, expanded, query, note: { id, type, preview, content } }) => {
+  const text = (expanded ? (content || preview) : preview);
+  if (!text) {
+    return null;
+  }
+  return (
+    <section className={`note ${type}`}>
+      <h5>{type}</h5>
+      {
+        text
+          .split('\n')
+          .map((text, index) => <p key={index}><SearchHighlight text={text} query={showQuery ? query : ''} /></p>)
+      }
+    </section>
+  );
+});

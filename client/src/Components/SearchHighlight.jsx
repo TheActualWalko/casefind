@@ -6,10 +6,12 @@ export default ({text, query}) => {
   if (query === '' || queryStart === -1) {
     return text;
   } else {
-    return [
-      text.slice(0, queryStart),
-      <span className='search-highlight'>{text.slice(queryStart, queryStart + query.length)}</span>,
-      text.slice(queryStart + query.length)
-    ]
+    return (
+      <span>
+        {text.slice(0, queryStart)}
+        <span className='search-highlight'>{text.slice(queryStart, queryStart + query.length)}</span>
+        {text.slice(queryStart + query.length)}
+      </span>
+    );
   }
 }

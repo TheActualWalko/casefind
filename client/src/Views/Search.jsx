@@ -1,7 +1,6 @@
 import React from 'react';
-import SearchInput from '../Components/SearchInput';
 import Case from '../Components/Case';
-import logo from '../logo-dark.svg';
+import AppHeader from '../Components/AppHeader';
 import './Search.css'
 import { results, query, types } from '../State/Search/selectors';
 import { toggleType } from '../State/Search/actions';
@@ -37,10 +36,7 @@ export default connect(
   { push, toggleType }
 )(({results, query, types, push, toggleType})=>(
   <main className='search'>
-    <header className='search-header'>
-      <img src={logo} className='logo' alt='Casefind' />
-      <div className='search-input'><SearchInput /></div>
-    </header>
+    <AppHeader />
     <aside>
       <h5>Filters</h5>
       <ul className='filters'>

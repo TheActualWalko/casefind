@@ -1,7 +1,7 @@
 import {one, many, chain} from './query';
 
-const previewWords = 30;
-const previewBubbleCharacters = 50;
+const previewWords = 15;
+const previewBubbleCharacters = 25;
 
 export const search = (searchText, types) => {
   const typeStatements = ['facts', 'decision', 'other']
@@ -40,7 +40,7 @@ export const search = (searchText, types) => {
         .split(' ')
         .slice(0, previewWords)
         .join(' ');
-      const content = `${
+      const preview = `${
         result.content.startsWith(contentCore) ? '' : '...'
       }${
         contentCore
@@ -48,12 +48,34 @@ export const search = (searchText, types) => {
         result.content.endsWith(contentCore) ? '' : '...'
       }`;
       return {
-        ...result,
-        content
+        id: result.id,
+        caseId: result.caseId,
+        name: result.name,
+        year: result.year,
+        content: result.content,
+        type: result.type,
+        preview
       }
     }
   );
 };
+
+export const getCase = (id) => many(
+  `
+    SELECT
+      notes.id AS id,
+      cases.id AS caseId,
+      cases.name AS name,
+      cases.year AS year,
+      notes.content AS content,
+      notes.type AS type
+    FROM cases
+    LEFT JOIN notes
+    ON (cases.id = notes.case_id)
+    WHERE cases.id = ?;
+  `,
+  [id]
+);
 
 export const track = (IS_DEV, ip, lat, lon, action, data) => one(
   `
