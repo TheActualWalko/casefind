@@ -12,10 +12,10 @@ import * as proxy from 'express-http-proxy';
 import bindApiCalls from './bind-api-calls';
 
 const {
-  MYSQL_HOST, 
-  MYSQL_USERNAME, 
-  MYSQL_PASSWORD, 
-  MYSQL_DB, 
+  MYSQL_HOST,
+  MYSQL_USERNAME,
+  MYSQL_PASSWORD,
+  MYSQL_DB,
   PORT,
   IS_DEV
 } = JSON.parse(fs.readFileSync('.apiConfig', 'utf8'));
@@ -24,7 +24,7 @@ const app = express();
 
 if (IS_DEV) {
   app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Origin', 'http://dev.casefind.org');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next()
   });
@@ -66,7 +66,7 @@ db.connect((err) => {
   } else {
     app.listen(PORT, (err) => {
       if (err) {
-        console.error(err) 
+        console.error(err)
       } else {
         console.log(`Listening on ${PORT}`);
       }

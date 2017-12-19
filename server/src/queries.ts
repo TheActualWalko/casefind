@@ -8,8 +8,8 @@ export const search = (searchText, types) => {
     .filter(t => types[t] === false)
     .map(t => `notes.type != "${t}"`);
 
-  const typeString = typeStatements.length === 0 
-    ? '' 
+  const typeString = typeStatements.length === 0
+    ? ''
     : `AND ${typeStatements.join(' AND ')}`;
 
   return many(
@@ -20,10 +20,16 @@ export const search = (searchText, types) => {
         cases.name AS name,
         cases.year AS year,
         notes.content AS content,
-        notes.type AS type
+        notes.type AS type,
+        embeds.url AS embed,
+        sources.name AS source
       FROM cases
       LEFT JOIN notes
       ON (cases.id = notes.case_id)
+      LEFT JOIN embeds
+      ON (cases.id = embeds.case_id)
+      LEFT JOIN sources
+      ON (sources.id = embeds.source_id)
       WHERE (
         cases.name LIKE ?
         OR notes.content LIKE ?
@@ -54,6 +60,8 @@ export const search = (searchText, types) => {
         year: result.year,
         content: result.content,
         type: result.type,
+        source: result.source,
+        embed: result.embed,
         preview
       }
     }
@@ -68,10 +76,16 @@ export const getCase = (id) => many(
       cases.name AS name,
       cases.year AS year,
       notes.content AS content,
-      notes.type AS type
+      notes.type AS type,
+      embeds.url AS embed,
+      sources.name AS source
     FROM cases
     LEFT JOIN notes
     ON (cases.id = notes.case_id)
+    LEFT JOIN embeds
+    ON (cases.id = embeds.case_id)
+    LEFT JOIN sources
+    ON (sources.id = embeds.source_id)
     WHERE cases.id = ?;
   `,
   [id]
@@ -100,15 +114,15 @@ export const track = (IS_DEV, ip, lat, lon, action, data) => one(
 
 export const getLastFortnightActivity = () => many(
   `
-    SELECT 
-      ip, 
-      lat, 
-      lon, 
-      action, 
-      data, 
+    SELECT
+      ip,
+      lat,
+      lon,
+      action,
+      data,
       timestamp
-    FROM 
-      activity 
+    FROM
+      activity
     WHERE timestamp >= now() - INTERVAL 2 WEEK AND dev = 0;
   `,
   []

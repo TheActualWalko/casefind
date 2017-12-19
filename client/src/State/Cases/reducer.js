@@ -12,11 +12,10 @@ export default (state = {}, action) => {
         ...casesById
       };
     case 'RECEIVE_CASE':
-      const caseNormalized = {
+      const caseNormalized = mapCaseResult({
         ...action.payload,
-        notes: action.payload.notes.map(n => n.id),
         fullContentLoaded: true
-      };
+      });
       return {
         ...state,
         [caseNormalized.id]: caseNormalized

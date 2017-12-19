@@ -4,8 +4,8 @@ export default (state = {}, action) => {
     case 'RECEIVE_RESULTS':
       action.payload.results
         .map((caseResult) => caseResult.notes)
-        .forEach((notes) => 
-          notes.forEach((note) => 
+        .forEach((notes) =>
+          notes.forEach((note) =>
             notesById[note.id] = {
               ...(state[note.id] || {}),
               ...note
@@ -18,7 +18,7 @@ export default (state = {}, action) => {
       };
     case 'RECEIVE_CASE':
       action.payload.notes
-        .forEach((note) => 
+        .forEach((note) =>
           notesById[note.id] = {
             ...(state[note.id] || {}),
             ...note

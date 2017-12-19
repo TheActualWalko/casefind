@@ -4,6 +4,7 @@
     "./src/*"
   ],
   "compilerOptions": {
+    "outDir": "dist",
     "sourceMap" : true,
     "target": "ES5",
     "module": "commonjs",

@@ -5,7 +5,7 @@ import './AppHeader.css';
 
 export default ({isDummySearch}) => (
   <header className='app-header'>
-    <img src={logo} className='logo' alt='Casefind' />
+    <a href="/search"><img src={logo} className='logo' alt='Casefind' /></a>
     <div className='search-input'><SearchInput isDummy={isDummySearch} /></div>
   </header>
 );

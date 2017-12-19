@@ -14,14 +14,24 @@ const groupNotesByCase = (queryResult, preview = false) => {
         id: r.caseId,
         name: r.name,
         year: r.year,
-        notes: []
+        notes: [],
+        embeds: []
       }
     }
-    casesById[r.caseId].notes.push({
-      id: r.id,
-      type: r.type,
-      [contentKey]: r[contentKey],
-    });
+    const currentCase = casesById[r.caseId];
+    if (r.embed && !currentCase.embeds.find((e) => e.embed === r.embed)) {
+      currentCase.embeds.push({
+        source: r.source,
+        embed: r.embed
+      });
+    }
+    if (!currentCase.notes.find((n) => n.id === r.id)) {
+      currentCase.notes.push({
+        id: r.id,
+        type: r.type,
+        [contentKey]: r[contentKey],
+      });
+    }
   });
   return Object.keys(casesById).map(id => casesById[id]);
 }

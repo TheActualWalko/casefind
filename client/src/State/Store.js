@@ -17,8 +17,8 @@ export default (history, apiRoot) => {
   });
 
   return applyMiddleware(
-    reduxThunk, 
-    routerMiddleware(history), 
+    reduxThunk,
+    routerMiddleware(history),
     analytics
   )(createStore)(
     reducer,

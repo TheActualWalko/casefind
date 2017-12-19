@@ -9,16 +9,33 @@ import { push } from 'react-router-redux';
 import { createStructuredSelector } from 'reselect';
 import './Case.css';
 
+const Notes = ({notes, forceExpanded, expanded, showQuery, toggleExpanded}) => {
+  return [
+    ...notes.map((noteId) => <div key={noteId}><Note id={noteId} expanded={forceExpanded || expanded} showQuery={showQuery} /></div>),
+    forceExpanded
+      ? null
+      : <footer
+        className='expand-prompt'
+        onClick={toggleExpanded}>
+          {expanded ? '- Minimize' : '+ Show full case notes'}
+        </footer>
+  ];
+};
+
+const Embed = ({src}) => <iframe src={src} />;
+
 export default connect(
   createStructuredSelector({ selectedCase: caseSelector, query }),
   { push, loadFullCase }
 )(class Case extends Component {
   state = {
-    expanded: false
+    expanded: false,
+    activeEmbed: false
   }
   getInitialState() {
     return {
-      expanded: this.props.forceExpanded
+      expanded: this.props.forceExpanded,
+      activeEmbed: false
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -34,23 +51,37 @@ export default connect(
       loadFullCase(id);
     }
   }
+  showEmbed(index) {
+    this.setState({
+      activeEmbed: index
+    });
+  }
+  showNotes() {
+    this.setState({
+      activeEmbed: false
+    });
+  }
   render() {
     const {selectedCase, query, showQuery, push, forceExpanded, loadFullCase} = this.props;
-    const {expanded} = this.state;
+    const {expanded, activeEmbed} = this.state;
     if (!selectedCase) {
       return null;
     }
-    const {id, name, year, notes, fullContentLoaded} = selectedCase;
+    const {id, name, year, notes, fullContentLoaded, embeds} = selectedCase;
     return (
       <article className='case'>
-        {forceExpanded 
-          ? null 
-          : <button 
-            className='expand-button'
-            onClick={() => this.toggleExpanded()}>
-              {expanded ? '-' : '+'}
-            </button>
-        }
+        <header>
+          <span className={`tab ${activeEmbed === false ? 'active' : ''}`} onClick={() => this.showNotes()}>Notes</span>
+          {embeds.map((e, i) => <span key={e.embed} className={`tab ${activeEmbed === i ? 'active' : ''}`} onClick={() => this.showEmbed(i)}>{e.source}</span>)}
+          {forceExpanded
+            ? null
+            : <button
+              className='expand-button'
+              onClick={() => this.toggleExpanded()}>
+                {expanded ? '-' : '+'}
+              </button>
+          }
+        </header>
         <h4>
           <a onClick={(e) => {
             e.stopPropagation();
@@ -59,14 +90,10 @@ export default connect(
             <SearchHighlight text={name} query={showQuery ? query : ''} /> [<SearchHighlight text={String(year)} query={showQuery ? query : ''} />]
           </a>
         </h4>
-        {notes.map((noteId) => <div key={noteId}><Note id={noteId} expanded={expanded || forceExpanded} showQuery={showQuery} /></div>)}
-        { forceExpanded 
-          ? null 
-          : <footer 
-            className='expand-prompt'
-            onClick={() => this.toggleExpanded()}>
-              {expanded ? '- Minimize' : '+ Show full case notes'}
-            </footer>
+        {
+          activeEmbed === false
+            ? <Notes notes={notes} forceExpanded={forceExpanded} expanded={expanded} showQuery={showQuery} toggleExpanded={() => this.toggleExpanded()} />
+            : <Embed src={embeds[activeEmbed].embed} />
         }
       </article>
     );
