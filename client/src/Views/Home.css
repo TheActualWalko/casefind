@@ -29,12 +29,14 @@ h2 {
   text-transform: uppercase;
   font-weight: 200;
   font-size: 70px;
+  line-height: 125%;
   max-width: 875px;
   margin: 150px auto 0 auto;
 }
 
 h3 {
   font-size: 40px;
+  line-height: 125%;
   text-align: center;
   color: #61cc96;
 }
@@ -52,7 +54,35 @@ h3 {
 }
 
 @media screen and (max-width: 520px) {
-  main > header, .hero > header {
+  main > header {
     padding: 20px 20px;
   }
+  .hero header {
+    position: relative;
+  }
+  .hero header img {
+    width: 40%;
+    height: auto;
+    vertical-align: middle;
+    display: inline-block;
+    float: none;
+  }
+  .hero header nav {
+    padding: 0;
+    vertical-align: middle;
+    display: inline-block;
+    float: none;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    margin-top: -10px;
+  }
+  h2 {
+    font-size: 40px;
+  }
+  h3 {
+    font-size: 30px;
+  }
 }
+
+@media screen and (max-width: )
