@@ -3,22 +3,11 @@
   padding-top: 80px;
   position: fixed;
   top: 0;
-  left: 320px;
+  left: 0;
   right: 0;
   bottom: 0;
   color: #222;
   overflow: scroll;
-}
-
-.search aside {
-  background-color: #222;
-  width: 320px;
-  position: fixed;
-  top: 80px;
-  left: 0;
-  bottom: 0;
-  color: white;
-  padding: 30px 40px;
 }
 
 .search aside h5 {
@@ -101,4 +90,18 @@
 .filters .facts:before {
   background-color: #27d6c3;
   border-color: #27d6c3;
+}
+
+@media screen and (max-width: 520px) {
+  .search {
+    padding-top: 130px;
+  }
+  .search .search-input {
+    margin-top: 10px;
+    max-width: 100%;
+    width: 100%;
+  }
+  .results {
+    padding: 30px 20px;
+  }
 }

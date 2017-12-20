@@ -50,3 +50,9 @@ h3 {
   margin: 0 auto;
   max-width: 400px;
 }
+
+@media screen and (max-width: 520px) {
+  main > header, .hero > header {
+    padding: 20px 20px;
+  }
+}

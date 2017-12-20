@@ -93,6 +93,6 @@
   padding-bottom: 0;
   margin-bottom: -15px;
   width: 100%;
-  height: 600px;
-  border: none;
+  height: 60vh;
+  border: 1px solid #eee;
 }

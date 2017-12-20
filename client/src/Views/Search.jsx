@@ -37,33 +37,10 @@ export default connect(
 )(({results, query, types, push, toggleType})=>(
   <main className='search'>
     <AppHeader />
-    <aside>
-      <h5>Filters</h5>
-      <ul className='filters'>
-        <li
-          className={`facts ${types.facts ? '' : 'disabled'}`}
-          onClick={()=>toggleType('facts')}
-        >
-          Facts
-        </li>
-        <li
-          className={`decision ${types.decision ? '' : 'disabled'}`}
-          onClick={()=>toggleType('decision')}
-        >
-          Decisions
-        </li>
-        <li
-          className={`other ${types.other ? '' : 'disabled'}`}
-          onClick={()=>toggleType('other')}
-        >
-          Other
-        </li>
-      </ul>
-    </aside>
     <ul className='results'>
       <li className='list-heading'>{renderHeading(results, query)}</li>
       {
-        results 
+        results
         ? results.map((result) => <li key={result.id}><Case showQuery id={result.id} /></li>)
         : null
       }
