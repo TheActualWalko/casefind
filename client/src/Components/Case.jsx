@@ -95,7 +95,7 @@ export default connect(
             : <footer
               key='footer'
               className='expand-prompt'
-              onClick={this.toggleExpanded('full case notes text')}>
+              onClick={() => this.toggleExpanded('full case notes text')}>
                 {expanded ? '- Minimize' : '+ Show full case notes'}
             </footer>
         }

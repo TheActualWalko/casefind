@@ -50,7 +50,7 @@ export default (IS_DEV, app, db) => {
       .catch((e) => console.error(e))
   });
 
-  app.post('/track', (req, res)=>{
+  app.post('/api/track', (req, res) => {
     const {action, data} = req.body;
     iplocation(req.ip, (err, ipLocationResponse) => {
       if (err) {
@@ -62,5 +62,10 @@ export default (IS_DEV, app, db) => {
           .then(() => res.send('success'));
       }
     });
+  });
+
+  app.post('/api/save', (req, res) => {
+    const {id, content} = req.body;
+    queries.saveContent(id, content)(db).then(() => res.send('success'));
   });
 }

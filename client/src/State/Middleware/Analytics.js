@@ -5,7 +5,7 @@ import {debounce} from 'lodash';
 const track = (apiRoot, action, data) => {
   if (typeof window !== 'undefined') {
     $.post(
-      `${apiRoot}/track`,
+      `${apiRoot}/api/track`,
       { action, data }
     );
   }

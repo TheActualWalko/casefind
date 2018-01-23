@@ -3,6 +3,16 @@ import {one, many, chain} from './query';
 const previewWords = 15;
 const previewBubbleCharacters = 25;
 
+export const saveContent = (id, content) => one(
+  `
+    INSERT INTO content
+    (case_id, value)
+    VALUES
+    (?, ?)
+  `,
+  [id, content]
+);
+
 export const search = (searchText, types) => {
   return many(
     `
