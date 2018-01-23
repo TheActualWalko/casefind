@@ -1,28 +1,55 @@
-// import * as $ from 'jquery';
-// import {debounce} from 'lodash';
+import * as $ from 'jquery';
 import {LOCATION_CHANGE} from 'react-router-redux';
+import {debounce} from 'lodash';
 
-const post = (url, params) => {
-  console.log(`analytics posting to ${url}`, params);
-}
-
-const track = (action, data) => {
+const track = (apiRoot, action, data) => {
   if (typeof window !== 'undefined') {
-    post(
-      '/track', 
+    $.post(
+      `${apiRoot}/track`,
       { action, data }
     );
   }
 }
 
-const trackLoad = (pathname) => {
-  track('load', pathname);
+const trackLoad = (apiRoot, pathname) => {
+  track(apiRoot, 'load', pathname);
 }
 
+const trackTyping = debounce((apiRoot, query) => {
+  track(apiRoot, 'typing', query);
+}, 500);
+
+const trackSetCaseExpanded = (apiRoot, buttonDescription, expanded) => {
+  if (expanded) {
+    track(apiRoot, 'expandCase', buttonDescription);
+  } else {
+    track(apiRoot, 'minimizeCase', buttonDescription);
+  }
+}
+
+const trackSelectTab = (apiRoot, tabSource) => {
+  track(apiRoot, 'selectTab', tabSource);
+}
+
+let lastQuery = '';
+
 const middleware = ({dispatch, getState}) => (next) => (action) => {
+  const {apiRoot} = getState();
   switch (action.type) {
     case LOCATION_CHANGE:
-      trackLoad(action.payload.pathname);
+      trackLoad(apiRoot, action.payload.pathname);
+      break;
+    case 'CHANGE_QUERY':
+      if (action.payload.isTyping && action.query !== '' && action.query !== lastQuery) {
+        lastQuery = action.payload.query;
+        trackTyping(apiRoot, action.payload.query);
+      }
+      break;
+    case 'SET_CASE_EXPANDED':
+      trackSetCaseExpanded(apiRoot, action.payload.buttonDescription, action.payload.expanded);
+      break;
+    case 'SELECT_TAB':
+      trackSelectTab(apiRoot, action.payload);
       break;
     default:
       break;

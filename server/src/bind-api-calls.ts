@@ -5,7 +5,7 @@ import * as queries from './queries';
 
 const sendJSON = (res) => (result) => res.json(result);
 const sendError = (res) => (error) => res.status(500).send(error);
-const groupNotesByCase = (queryResult, preview = false) => {
+const collectResultsIntoCases = (queryResult, preview = false) => {
   const casesById = {};
   const contentKey = preview ? 'preview' : 'content';
   queryResult.forEach((r) => {
@@ -14,7 +14,7 @@ const groupNotesByCase = (queryResult, preview = false) => {
         id: r.caseId,
         name: r.name,
         year: r.year,
-        notes: [],
+        [contentKey]: r[contentKey],
         embeds: []
       }
     }
@@ -25,13 +25,6 @@ const groupNotesByCase = (queryResult, preview = false) => {
         embed: r.embed
       });
     }
-    if (!currentCase.notes.find((n) => n.id === r.id)) {
-      currentCase.notes.push({
-        id: r.id,
-        type: r.type,
-        [contentKey]: r[contentKey],
-      });
-    }
   });
   return Object.keys(casesById).map(id => casesById[id]);
 }
@@ -39,7 +32,7 @@ const groupNotesByCase = (queryResult, preview = false) => {
 export default (IS_DEV, app, db) => {
   app.get('/api/search/:query', (req, res) => {
     queries.search(req.params.query, JSON.parse(req.query.types))(db)
-      .then((results) => groupNotesByCase(results, true))
+      .then((results) => collectResultsIntoCases(results, true))
       .then((cases) => cases.sort((a, b) => {
         if (a.name.toLowerCase().indexOf(req.params.query.toLowerCase()) === 0) { return -1 };
         if (b.name.toLowerCase().indexOf(req.params.query.toLowerCase()) === 0) { return 1 };
@@ -51,7 +44,7 @@ export default (IS_DEV, app, db) => {
 
   app.get('/api/case/:id', (req, res) => {
     queries.getCase(req.params.id)(db)
-      .then(groupNotesByCase)
+      .then(collectResultsIntoCases)
       .then(c => c[0])
       .then(sendJSON(res))
       .catch((e) => console.error(e))

@@ -28,7 +28,7 @@ export default connect(
                 setTimeout(()=>push(`/search`));
               }
             }}
-            onChange={(e) => changeQuery(e.target.value)} 
+            onChange={(e) => changeQuery(e.target.value, true)}
             autoFocus={!isDummy}
           />
           <button onClick={(e) => push(`/search/${query}`)}><img src={gavel} alt='Go!'/></button>

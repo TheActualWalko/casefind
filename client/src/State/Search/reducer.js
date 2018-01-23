@@ -12,7 +12,7 @@ export default (state = {
   switch (action.type) {
     case 'TOGGLE_TYPE':
       return {
-        ...state, 
+        ...state,
         types: {
           ...state.types,
           [action.payload]: !state.types[action.payload]
@@ -20,14 +20,14 @@ export default (state = {
       };
     case 'CHANGE_QUERY':
       return {
-        ...state, 
-        query: action.payload
+        ...state,
+        query: action.payload.query
       };
     case 'RECEIVE_RESULTS':
       return {
-        ...state, 
+        ...state,
         results: {
-          ...state.results, 
+          ...state.results,
           [getResultKey(action.payload.query, action.payload.types)]: action.payload.results
         }
       };

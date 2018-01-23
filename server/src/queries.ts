@@ -4,38 +4,25 @@ const previewWords = 15;
 const previewBubbleCharacters = 25;
 
 export const search = (searchText, types) => {
-  const typeStatements = ['facts', 'decision', 'other']
-    .filter(t => types[t] === false)
-    .map(t => `notes.type != "${t}"`);
-
-  const typeString = typeStatements.length === 0
-    ? ''
-    : `AND ${typeStatements.join(' AND ')}`;
-
   return many(
     `
       SELECT
-        notes.id AS id,
         cases.id AS caseId,
+        cases.content AS content,
         cases.name AS name,
         cases.year AS year,
-        notes.content AS content,
-        notes.type AS type,
         embeds.url AS embed,
         sources.name AS source
       FROM cases
-      LEFT JOIN notes
-      ON (cases.id = notes.case_id)
       LEFT JOIN embeds
       ON (cases.id = embeds.case_id)
       LEFT JOIN sources
       ON (sources.id = embeds.source_id)
       WHERE (
         cases.name LIKE ?
-        OR notes.content LIKE ?
+        OR cases.content LIKE ?
         OR cases.year LIKE ?
       )
-      ${typeString}
       LIMIT 11;
     `,
     [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`],
@@ -54,12 +41,9 @@ export const search = (searchText, types) => {
         result.content.endsWith(contentCore) ? '' : '...'
       }`;
       return {
-        id: result.id,
         caseId: result.caseId,
         name: result.name,
         year: result.year,
-        content: result.content,
-        type: result.type,
         source: result.source,
         embed: result.embed,
         preview
@@ -71,17 +55,13 @@ export const search = (searchText, types) => {
 export const getCase = (id) => many(
   `
     SELECT
-      notes.id AS id,
       cases.id AS caseId,
       cases.name AS name,
       cases.year AS year,
-      notes.content AS content,
-      notes.type AS type,
+      cases.content AS content,
       embeds.url AS embed,
       sources.name AS source
     FROM cases
-    LEFT JOIN notes
-    ON (cases.id = notes.case_id)
     LEFT JOIN embeds
     ON (cases.id = embeds.case_id)
     LEFT JOIN sources
