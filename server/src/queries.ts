@@ -8,9 +8,32 @@ export const saveContent = (id, content) => one(
     INSERT INTO content
     (case_id, value)
     VALUES
-    (?, ?)
+    (?, ?);
   `,
-  [id, content]
+  [Number(id), content]
+);
+
+export const listCases = () => many(
+  `
+    SELECT
+      id,
+      name
+    FROM
+      cases;
+  `,
+  []
+);
+
+export const getContent = (caseId) => many(
+  `
+    SELECT
+      value
+    FROM
+      content
+    WHERE case_id = ?
+    ORDER BY timestamp DESC LIMIT 1
+  `,
+  [Number(caseId)]
 );
 
 export const search = (searchText, types) => {

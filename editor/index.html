@@ -9,15 +9,15 @@
         font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
       }
       #status {
-        background-color: #fcd116;
+        background-color: #1678fc;
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         padding: 5px;
         color: white;
+        text-align: center;
         font-weight: 600;
-        letter-spacing: 2px;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.5s ease;;
@@ -25,20 +25,95 @@
       #status.visible {
         opacity: 1;
       }
+      #cases {
+        padding: 0;
+        margin: 0;
+      }
+      #cases .active {
+        font-weight: 600;
+        text-decoration: none;
+      }
+      #cases button {
+        display: block;
+        background: none;
+        border: none;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .ql-header:before {
+        content:"H";
+        position: relative;
+        top: -1px;
+        right: -3px;
+      }
+      .ql-header {
+        font-size: 14px;
+        font-weight: 600;
+        background-color: #333;
+      }
+      #save {
+        background-color: #1678fc;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+      }
+      main {
+        max-width: 600px;
+        margin: 10px auto;
+      }
     </style>
   </head>
   <body>
-    <div id="status"></div>
-    <div id="editor">
-    </div>
-    <button id="submit">Submit</button>
+    <main>
+      <div id="status"></div>
+      <h2>Editing <strong id='casename'>Nothing</strong></h2>
+      <div id="editor"></div>
+      <button id="save">Save</button>
+      <h2>Cases</h2>
+      <div id="cases"></div>
+    </main>
     <script>
-      const quill = new Quill('#editor', { theme: 'snow' });
+      let selectedCase;
+      let cases = [];
+
+      const quill = new Quill('#editor', { theme: 'snow', modules: { toolbar: [['bold', 'italic', {'header': 5}], ['link', 'image']] } });
+
+      const selectCase = (selected) => {
+        save(selectedCase, quill.root.innerHTML);
+        selectedCase = selected;
+        $("#casename").text(selectedCase.name);
+        $.get('http://casefind.org/api/content/' + selected.id).then((r) => {
+          if (r.length === 0) {
+            quill.setContents('\n');
+            return;
+          }
+          const value = r[0].value;
+          quill.clipboard.dangerouslyPasteHTML(value);
+          $(window).scrollTop(0);
+        });
+        updateCaseList();
+      }
+
+      const updateCaseList = () => {
+        $("#cases").empty();
+        cases.forEach((c) => {
+          const button = $(`<button class="${c === selectedCase ? 'active' : ''}">${c.name} [id: ${c.id}]</button>`);
+          $(button).click(() => {
+            selectCase(c);
+          });
+          $("#cases").append(button);
+        })
+      }
+
+      $.get('http://casefind.org/api/cases').then((result) => {
+        cases = result;
+        updateCaseList();
+      });
 
       const save = (id, content) => {
         $.ajax({
           method: 'POST',
-          url: 'http://localhost:1337/api/save',
+          url: 'http://casefind.org/api/save',
           data: {
             id,
             content
@@ -50,7 +125,7 @@
         });
       }
 
-      $("#submit").click(() => save());
+      $("#save").click(() => save(selectedCase.id, quill.root.innerHTML));
     </script>
   </body>
 </html>

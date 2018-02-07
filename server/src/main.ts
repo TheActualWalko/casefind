@@ -57,6 +57,9 @@ if (!IS_DEV || process.argv[2] === 'prod') {
     app.get(r, (req, res, next) => res.sendFile(path.resolve(__dirname, '../../client/build/index.html')));
   });
 
+  app.get('/editor', (req, res, next) => {
+    res.sendFile(path.resolve(__dirname, '../../editor/index.html'));
+  });
   app.get('*', express.static(path.resolve(__dirname, '../../client/build')));
 }
 

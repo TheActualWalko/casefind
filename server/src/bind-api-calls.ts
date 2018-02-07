@@ -68,4 +68,12 @@ export default (IS_DEV, app, db) => {
     const {id, content} = req.body;
     queries.saveContent(id, content)(db).then(() => res.send('success'));
   });
+
+  app.get('/api/cases', (req, res) => {
+    queries.listCases()(db).then(sendJSON(res));
+  });
+
+  app.get('/api/content/:caseId', (req, res) => {
+    queries.getContent(req.params.caseId)(db).then(sendJSON(res));
+  });
 }
