@@ -38,7 +38,7 @@ document.getElementById('go-to-app-button').addEventListener('click', () => {
   window.location.href = '/search';
 });
 
-track('load', window.location.href);
+track('load', window.location.pathname);
 
 $('[data-tracking]').each(function() {
   $(this).click(() => {
