@@ -17,7 +17,8 @@ const {
   MYSQL_PASSWORD,
   MYSQL_DB,
   PORT,
-  IS_DEV
+  IS_DEV,
+  ACCESS_CODE
 } = JSON.parse(fs.readFileSync('.apiConfig', 'utf8'));
 
 const app = express();
@@ -45,16 +46,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 bindApiCalls(IS_DEV, app, db);
 
+app.get('/', (req, res) => {
+  if (req.cookies.accessCode === ACCESS_CODE) {
+    res.redirect('/search');
+  } else {
+    res.sendFile(path.resolve(__dirname, '../../beta/index.html'));
+  }
+});
+app.get('/bg.jpg', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/bg.jpg')));
+app.get('/jquery-3.1.1.min.js', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/jquery-3.1.1.min.js')));
+app.get('/logo.png', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/logo.png')));
+app.get('/main.js', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/main.js')));
+app.get('/style.css', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/style.css')));
+
 if (!IS_DEV || process.argv[2] === 'prod') {
   const reactRouterRoutes = [
-    '/',
     '/contact',
     '/search',
     '/search/*',
     '/case/*'
   ];
   reactRouterRoutes.forEach((r) => {
-    app.get(r, (req, res, next) => res.sendFile(path.resolve(__dirname, '../../client/build/index.html')));
+    app.get(r, (req, res, next) => {
+      if (req.cookies.accessCode === ACCESS_CODE) {
+        res.sendFile(path.resolve(__dirname, '../../client/build/index.html'))
+      } else {
+        res.redirect('/');
+      }
+    });
   });
 
   app.get('/editor', (req, res, next) => {

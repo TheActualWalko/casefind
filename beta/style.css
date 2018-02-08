@@ -1,0 +1,149 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: black;
+  color: white;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  text-align: center;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+body:before {
+  content: '';
+  background-image: url('bg.jpg');
+  background-size: cover;
+  background-position: 50% 50%;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+header {
+  background-color: #262626;
+  height: 60px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: right;
+}
+
+header img {
+  height: 100%;
+  width: auto;
+  float: left;
+}
+header nav {
+  display: inline-block;
+  text-align: left;
+}
+header nav a, header nav span {
+  text-decoration: none;
+  color: white;
+  text-transform: uppercase;
+  padding: 10px;
+  display: inline-block;
+  letter-spacing: 1px;
+}
+
+header nav a:hover,
+header nav span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+section {
+  margin: 50px auto 0 auto;
+  max-width: 400px;
+  width: 100%;
+  padding: 40px;
+}
+
+h2 {
+  font-weight: 200;
+  font-size: 60px;
+  max-width: 800px;
+  margin: 100px auto 0 auto;
+}
+h2 strong {
+  font-weight: 600;
+}
+
+h3 {
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 24px;
+}
+
+@media screen and (max-width:540px) {
+  section {
+    padding: 0;
+  }
+  header img {
+    height: auto;
+    width: 150px;
+    margin-top: 6px;
+  }
+  header nav {
+    font-size: 12px;
+    padding-top: 2px;
+  }
+  h2 {
+    font-size: 40px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+}
+
+p {
+  color: white;
+}
+
+p span {
+  color: #27D6C3;
+  text-decoration: underline;
+}
+
+p span:hover {
+  cursor: pointer;
+  color: #07B6A3;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+button, input {
+  font-size: 14px;
+  padding: 10px 20px;
+  border: none;
+}
+
+button {
+  background-color: #17C6B3;
+  color: white;
+  font-weight: 600;
+  border: none;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 3px;
+}
+
+input + button {
+  border-radius: 0;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #27D6C3;
+}
