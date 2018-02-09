@@ -33,9 +33,9 @@ const colors = {
 };
 
 const {
-  MYSQL_HOST, 
-  MYSQL_USERNAME, 
-  MYSQL_PASSWORD, 
+  MYSQL_HOST,
+  MYSQL_USERNAME,
+  MYSQL_PASSWORD,
   MYSQL_DB
 } = JSON.parse(fs.readFileSync('.apiConfig', 'utf8'));
 
@@ -59,6 +59,12 @@ db.connect((err) => {
         let currentSessionStartTime;
         const sessions = [];
         let currentSession = [];
+        results = results.map(
+          (r) => ({
+            ...r,
+            timestamp: new Date(r.timestamp).getTime() + (5 * 60 * 60 * 1000)
+          })
+        );
         console.log(
           results
             .reduce((acc, cur, idx, arr) => {
@@ -89,10 +95,10 @@ db.connect((err) => {
                 'register': colors.fgMagenta
               }[action] || colors.reset;
 
-              while (action.length < 15) {
+              while (action.length < 17) {
                 action = ' ' + action;
               }
-              action = `${actionColor}${action}`; 
+              action = `${actionColor}${action}`;
               let data = cur.data;
               return acc + `${heading}[${deltaTime}]${action}: ${data}${colors.reset}\n`;
             }, '')
@@ -114,7 +120,7 @@ db.connect((err) => {
 
         console.log('Sessions:');
         console.log(sessionCount);
-        
+
         db.destroy();
       });
   }

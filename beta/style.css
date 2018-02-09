@@ -84,9 +84,16 @@ h3 {
   font-size: 24px;
 }
 
+h4 {
+  margin-top: 0;
+  font-size: 14px;
+  font-weight: 200;
+  color: #aaa;
+}
+
 @media screen and (max-width:540px) {
   section {
-    padding: 0;
+    padding: 0 10px;
   }
   header img {
     height: auto;
@@ -98,7 +105,8 @@ h3 {
     padding-top: 2px;
   }
   h2 {
-    font-size: 40px;
+    font-size: 38px;
+    padding: 0 10px;
   }
   h3 {
     font-size: 20px;
@@ -107,6 +115,8 @@ h3 {
 
 p {
   color: white;
+  max-width: 360px;
+  margin: 10px auto 0 auto;
 }
 
 p span {

@@ -54,6 +54,7 @@ app.get('/', (req, res) => {
   }
 });
 app.get('/bg.jpg', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/bg.jpg')));
+app.get('/fb-sharing-image.png', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/fb-sharing-image.png')));
 app.get('/jquery-3.1.1.min.js', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/jquery-3.1.1.min.js')));
 app.get('/logo.png', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/logo.png')));
 app.get('/main.js', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/main.js')));

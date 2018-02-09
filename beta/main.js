@@ -19,12 +19,14 @@ requestAccessNodeArray.forEach((node) => {
 
 function loaded() {
   if (requestAccessClicked || window.location.href.indexOf('#request-beta-access') >= 0) {
+    document.cookie = "MCPopupSubscribed=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     document.cookie = "MCPopupClosed=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     showPopup();
   }
 
   requestAccessNodeArray.forEach((node) => {
     node.addEventListener('click', () => {
+      document.cookie = "MCPopupSubscribed=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
       document.cookie = "MCPopupClosed=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
       showPopup();
     });
