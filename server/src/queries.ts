@@ -1,16 +1,29 @@
-import {one, many, chain} from './query';
+import {one, many, transaction} from './query';
 
 const previewWords = 15;
 const previewBubbleCharacters = 25;
 
-export const saveContent = (id, content) => one(
-  `
-    INSERT INTO content
-    (case_id, value)
-    VALUES
-    (?, ?);
-  `,
-  [Number(id), content]
+export const saveContent = (id, content) => transaction(
+  one(
+    `
+      INSERT INTO content
+        (case_id, value)
+      VALUES
+        (?, ?);
+    `,
+    [Number(id), content]
+  ),
+  one(
+    `
+      UPDATE
+        cases
+      SET
+        content_id = (SELECT LAST_INSERT_ID())
+      WHERE
+        id = ?;
+    `,
+    [Number(id)]
+  )
 );
 
 export const listCases = () => many(
@@ -54,9 +67,12 @@ export const search = (searchText, types) => {
       LEFT JOIN sources
       ON (sources.id = embeds.source_id)
       WHERE (
-        cases.name LIKE ?
-        OR content.value LIKE ?
-        OR cases.year LIKE ?
+        cases.content_id IS NOT NULL
+        AND (
+          cases.name LIKE ?
+          OR content.value LIKE ?
+          OR cases.year LIKE ?
+        )
       )
       LIMIT 11;
     `,

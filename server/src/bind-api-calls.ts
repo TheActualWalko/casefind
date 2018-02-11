@@ -29,7 +29,7 @@ const collectResultsIntoCases = (queryResult, preview = false) => {
   return Object.keys(casesById).map(id => casesById[id]);
 }
 
-export default (IS_DEV, app, db) => {
+export default (IS_DEV, EDITOR_ACCESS_CODE, app, db) => {
   app.get('/api/search/:query', (req, res) => {
     queries.search(req.params.query, JSON.parse(req.query.types))(db)
       .then((results) => collectResultsIntoCases(results, true))
@@ -65,12 +65,20 @@ export default (IS_DEV, app, db) => {
   });
 
   app.post('/api/save', (req, res) => {
-    const {id, content} = req.body;
-    queries.saveContent(id, content)(db).then(() => res.send('success'));
+    if (req.cookies.editorAccessCode === EDITOR_ACCESS_CODE) {
+      const {id, content} = req.body;
+      queries.saveContent(id, content)(db).then(() => res.send('success'));
+    } else {
+      res.send('Access denied!');
+    }
   });
 
   app.get('/api/cases', (req, res) => {
-    queries.listCases()(db).then(sendJSON(res));
+    if (req.cookies.editorAccessCode === EDITOR_ACCESS_CODE) {
+      queries.listCases()(db).then(sendJSON(res));
+    } else {
+      res.send('Access denied!');
+    }
   });
 
   app.get('/api/content/:caseId', (req, res) => {

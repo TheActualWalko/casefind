@@ -79,7 +79,6 @@
       const quill = new Quill('#editor', { theme: 'snow', modules: { toolbar: [['bold', 'italic', {'header': 5}], ['link', 'image']] } });
 
       const selectCase = (selected) => {
-        save(selectedCase, quill.root.innerHTML);
         selectedCase = selected;
         $("#casename").text(selectedCase.name);
         $.get('http://casefind.org/api/content/' + selected.id).then((r) => {

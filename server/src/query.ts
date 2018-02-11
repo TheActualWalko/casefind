@@ -35,3 +35,27 @@ export const chain = (...queries) => (db, debug=false) => {
     return Promise.resolve();
   }
 }
+
+export const transaction = (...queries) => (db, debug=false) => {
+  return new Promise<any>((resolve, reject) => {
+    db.beginTransaction((err) => {
+      if (err) {
+        reject(err);
+      } else {
+        chain(...queries)(db, debug)
+          .then((result) => {
+            db.commit((err) => {
+              if (err) {
+                db.rollback(() => {
+                  reject(err);
+                });
+              } else {
+                resolve(result);
+              }
+            });
+          })
+          .catch(reject);
+      }
+    })
+  });
+}

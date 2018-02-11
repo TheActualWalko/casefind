@@ -18,7 +18,8 @@ const {
   MYSQL_DB,
   PORT,
   IS_DEV,
-  ACCESS_CODE
+  ACCESS_CODE,
+  EDITOR_ACCESS_CODE
 } = JSON.parse(fs.readFileSync('.apiConfig', 'utf8'));
 
 const app = express();
@@ -44,7 +45,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-bindApiCalls(IS_DEV, app, db);
+bindApiCalls(IS_DEV, EDITOR_ACCESS_CODE, app, db);
 
 app.get('/', (req, res) => {
   if (req.cookies.accessCode === ACCESS_CODE) {
@@ -85,7 +86,11 @@ if (!IS_DEV || process.argv[2] === 'prod') {
   });
 
   app.get('/editor', (req, res, next) => {
-    res.sendFile(path.resolve(__dirname, '../../editor/index.html'));
+    if (req.cookies.editorAccessCode === EDITOR_ACCESS_CODE) {
+      res.sendFile(path.resolve(__dirname, '../../editor/index.html'));
+    } else {
+      res.send('Access denied!');
+    }
   });
   app.get('*', express.static(path.resolve(__dirname, '../../client/build')));
 }
