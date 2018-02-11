@@ -41,19 +41,21 @@ export const search = (searchText, types) => {
     `
       SELECT
         cases.id AS caseId,
-        cases.content AS content,
         cases.name AS name,
         cases.year AS year,
+        content.value AS content,
         embeds.url AS embed,
         sources.name AS source
       FROM cases
+      LEFT JOIN content
+      ON (content.id = cases.content_id)
       LEFT JOIN embeds
       ON (cases.id = embeds.case_id)
       LEFT JOIN sources
       ON (sources.id = embeds.source_id)
       WHERE (
         cases.name LIKE ?
-        OR cases.content LIKE ?
+        OR content.value LIKE ?
         OR cases.year LIKE ?
       )
       LIMIT 11;
@@ -91,10 +93,12 @@ export const getCase = (id) => many(
       cases.id AS caseId,
       cases.name AS name,
       cases.year AS year,
-      cases.content AS content,
+      content.value AS content,
       embeds.url AS embed,
       sources.name AS source
     FROM cases
+    LEFT JOIN content
+    ON (content.id = cases.content_id)
     LEFT JOIN embeds
     ON (cases.id = embeds.case_id)
     LEFT JOIN sources
