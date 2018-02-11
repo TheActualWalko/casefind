@@ -37,14 +37,25 @@ export const listCases = () => many(
   []
 );
 
+export const listCasesWithTags = (tags) => many(
+  `
+    SELECT
+      id,
+      name
+    FROM
+      cases
+    WHERE tags = ?;
+  `,
+  [tags]
+);
+
 export const getContent = (caseId) => many(
   `
     SELECT
       value
     FROM
       content
-    WHERE case_id = ?
-    ORDER BY timestamp DESC LIMIT 1
+    WHERE id = (SELECT content_id FROM cases WHERE id=?);
   `,
   [Number(caseId)]
 );

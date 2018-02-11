@@ -69,26 +69,42 @@
       <h2>Editing <strong id='casename'>Nothing</strong></h2>
       <div id="editor"></div>
       <button id="save">Save</button>
-      <h2>Cases</h2>
+      <h2>Tag Filter</h2>
+      <button class="tags-button" data-tags="">All</button>
+      <button class="tags-button" data-tags="criminal">Criminal</button>
+      <button class="tags-button" data-tags="tort">Tort</button>
+      <button class="tags-button" data-tags="contract">Contract</button>
+      <button class="tags-button" data-tags="property">Property</button>
+      <button class="tags-button" data-tags="trust">Trust</button>
+      <h2 id="cases-heading">Cases</h2>
       <div id="cases"></div>
     </main>
     <script>
       let selectedCase;
       let cases = [];
+      let contentChanged = false;
 
       const quill = new Quill('#editor', { theme: 'snow', modules: { toolbar: [['bold', 'italic', {'header': 5}], ['link', 'image']] } });
+      quill.on('text-change', () => contentChanged = true);
 
       const selectCase = (selected) => {
+        if (contentChanged) {
+          alert('Content has changed. Please click Save, or refresh the page to discard your changes.');
+          return;
+        }
         selectedCase = selected;
         $("#casename").text(selectedCase.name);
         $.get('http://casefind.org/api/content/' + selected.id).then((r) => {
           if (r.length === 0) {
-            quill.setContents('\n');
+            console.log('omg');
+            quill.clipboard.dangerouslyPasteHTML(`<h5>Facts:</h5><p>My milkshake brings all the boys to the yard.</p><h5>Decision:</h5><p>Damn right, they're better than yours.</p>`);
+            contentChanged = false;
             return;
           }
           const value = r[0].value;
           quill.clipboard.dangerouslyPasteHTML(value);
           $(window).scrollTop(0);
+          contentChanged = false;
         });
         updateCaseList();
       }
@@ -104,12 +120,29 @@
         })
       }
 
-      $.get('http://casefind.org/api/cases').then((result) => {
+      $.get(`http://casefind.org/api/cases`).then((result) => {
         cases = result;
         updateCaseList();
       });
 
+      const setTags = (tags) => {
+        $("#cases").empty();
+        $("#cases-heading").text('loading...');
+        $.get(`http://casefind.org/api/cases${tags ? '/' + tags : ''}`).then((result) => {
+          $("#cases-heading").text(`${tags.slice(0,1).toUpperCase() + tags.slice(1)} Cases`);
+          cases = result;
+          updateCaseList();
+        });
+      };
+
+      $(".tags-button").each(function() {
+        $(this).click(() => setTags($(this).attr('data-tags')));
+      });
+
       const save = (id, content) => {
+        if (content === '<p><br></p>' || content === '<p></p>' || content === '<br>') {
+          content = null;
+        }
         $.ajax({
           method: 'POST',
           url: 'http://casefind.org/api/save',
@@ -121,6 +154,7 @@
           $("#status").text('Saved successfully!');
           $("#status").addClass('visible');
           setTimeout(()=>$("#status").removeClass('visible'), 2000);
+          contentChanged = false;
         });
       }
 

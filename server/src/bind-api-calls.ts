@@ -81,6 +81,14 @@ export default (IS_DEV, EDITOR_ACCESS_CODE, app, db) => {
     }
   });
 
+  app.get('/api/cases/:tags', (req, res) => {
+    if (req.cookies.editorAccessCode === EDITOR_ACCESS_CODE) {
+      queries.listCasesWithTags(req.params.tags)(db).then(sendJSON(res));
+    } else {
+      res.send('Access denied!');
+    }
+  });
+
   app.get('/api/content/:caseId', (req, res) => {
     queries.getContent(req.params.caseId)(db).then(sendJSON(res));
   });
