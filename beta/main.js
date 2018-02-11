@@ -36,8 +36,14 @@ function loaded() {
 document.getElementById('go-to-app-button').addEventListener('click', () => {
   const accessCode = document.getElementById('code-input').value;
   track('goToAppWithCode', accessCode);
-  document.cookie = `accessCode=${accessCode}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
-  window.location.href = '/search';
+  $.post('/access/' + accessCode).then((response) => {
+    if (response === 'valid') {
+      document.cookie = `accessCode=${accessCode}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+      window.location.href = '/search';
+    } else {
+      showPopup();
+    }
+  })
 });
 
 track('load', window.location.pathname);
