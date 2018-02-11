@@ -59,6 +59,13 @@ app.get('/jquery-3.1.1.min.js', (req, res) => res.sendFile(path.resolve(__dirnam
 app.get('/logo.png', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/logo.png')));
 app.get('/main.js', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/main.js')));
 app.get('/style.css', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/style.css')));
+app.post('/access/:code', (req, res) => {
+  if (req.params.code === ACCESS_CODE) {
+    res.send('valid');
+  } else {
+    res.send('invalid');
+  }
+});
 
 if (!IS_DEV || process.argv[2] === 'prod') {
   const reactRouterRoutes = [
