@@ -89,18 +89,25 @@ export const search = (searchText, types) => {
     `,
     [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`],
     (result) => {
-      const noteMatchStart = result.content.toLowerCase().indexOf(searchText.toLowerCase()) || 0;
-      const contentCore = result.content
+      const textContent = result.content
+        .replace(/<br\/?>/g, '\n')
+        .replace(/<p>/g, '\n')
+        .replace(/<h5>/g, '\n')
+        .replace(/<\/h5>/g, '\n')
+        .replace(/<\/?[^>]+(>|$)/g, '')
+        .replace(/\&nbsp;/g, ' ');
+      const noteMatchStart = textContent.toLowerCase().indexOf(searchText.toLowerCase()) || 0;
+      const contentCore = textContent
         .slice(Math.max(0, noteMatchStart - previewBubbleCharacters))
         .split(' ')
         .slice(0, previewWords)
         .join(' ');
       const preview = `${
-        result.content.startsWith(contentCore) ? '' : '...'
+        textContent.startsWith(contentCore) ? '' : '...'
       }${
         contentCore
       }${
-        result.content.endsWith(contentCore) ? '' : '...'
+        textContent.endsWith(contentCore) ? '' : '...'
       }`;
       return {
         caseId: result.caseId,
