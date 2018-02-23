@@ -12,6 +12,7 @@ export default (state = {}, action) => {
       return {
         ...state,
         [action.payload.id]: {
+          ...state[action.payload.id],
           ...action.payload,
           fullContentLoaded: true
         }
