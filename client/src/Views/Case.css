@@ -11,9 +11,4 @@
 }
 .case-view .case {
   margin-top: 30px;
-  box-shadow: none;
-}
-
-.case-view .case header {
-  background-color: #eee;
 }

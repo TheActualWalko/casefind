@@ -65,7 +65,7 @@ export default connect(
     return (
       <article className='case'>
         <header>
-          <span className={`tab ${activeEmbed === false ? 'active' : ''}`} onClick={() => this.showNotes()}>Notes</span>
+          <span className={`tab ${activeEmbed === false ? 'active' : ''}`} onClick={() => this.showNotes()}>Casefind</span>
           {embeds.map((e, i) => <span key={e.embed} className={`tab ${activeEmbed === i ? 'active' : ''}`} onClick={() => this.showEmbed(i)}>{e.source}</span>)}
           {forceExpanded
             ? null

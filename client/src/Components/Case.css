@@ -21,6 +21,10 @@
   border-bottom: 1px solid #ddd;
 }
 
+.case header::-webkit-scrollbar {
+  display: none;
+}
+
 .case header .tab {
   padding: 9px 20px 8px 20px;
   display: block;
@@ -66,6 +70,10 @@
   line-height: 150%;
 }
 
+.case p h5 {
+  line-height: 120%;
+}
+
 .case iframe {
   padding-left: 0;
   padding-right: 0;
@@ -78,11 +86,14 @@
 
 
 .expand-button {
-  float: right;
   height: 43px;
   width: 43px;
-  background: transparent;
+  background-color: #f8f8f8;
   border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  position: absolute;
+  right: 0;
+  top: 0;
   padding: 0;
   font-size: 22px;
 }
@@ -118,4 +129,17 @@
   color: #777;
   font-style: italic;
   display:inline-block;
+}
+
+
+@media screen and (max-width: 760px) {
+  .case header .tab {
+    padding: 4px 10px 3px 10px;
+    display: block;
+    float: left;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin-top: 15px;
+    margin-right: 10px;
+  }
 }

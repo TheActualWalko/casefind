@@ -4,7 +4,8 @@ import './NoteHTML.css';
 export default ({text, query, asParagraphs}) => {
   const firstQueryStart = text.toLowerCase().indexOf(query.toLowerCase());
   if (query === '' || firstQueryStart === -1) {
-    return <span dangerouslySetInnerHTML={{__html: text}} />;
+    const content = <span dangerouslySetInnerHTML={{__html: text}} />;
+    return asParagraphs ? <p>{content}</p> : content;
   } else {
     const lines = text.split(/<[^>]*>/).filter(x => x.length > query.length);
     const outputLines = lines.map((line => {

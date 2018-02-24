@@ -2,6 +2,7 @@ import React from 'react';
 import Case from '../Components/Case';
 import AppHeader from '../Components/AppHeader';
 import './Search.css'
+import welcomeScreen from '../welcome-screen.svg';
 import { results, query, types } from '../State/Search/selectors';
 import { toggleType } from '../State/Search/actions';
 import { connect } from 'react-redux';
@@ -31,6 +32,15 @@ const renderHeading = (results, query) => {
     );
   }
 }
+
+const WelcomeMessage = () => (
+  <div className='welcome-message'>
+    <img src={welcomeScreen} />
+    <h4>Welcome back!</h4>
+    <h5>Enter a case name in the search bar above.</h5>
+  </div>
+);
+
 export default connect(
   createStructuredSelector({results, query, types}),
   { push, toggleType }
@@ -45,5 +55,6 @@ export default connect(
         : null
       }
     </ul>
+    {!query ? <WelcomeMessage /> : null}
   </main>
 ));

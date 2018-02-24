@@ -28,6 +28,7 @@ export default connect(
                 setTimeout(()=>push(`/search`));
               }
             }}
+            placeholder='Search'
             onChange={(e) => changeQuery(e.target.value, true)}
             autoFocus={!isDummy}
           />
