@@ -3,6 +3,11 @@ import {one, many, transaction} from './query';
 const previewWords = 15;
 const previewBubbleCharacters = 25;
 
+export const getBetaUser = (accessCode) => many(
+  `SELECT id FROM users WHERE beta_access = ?;`,
+  [accessCode]
+);
+
 export const saveContent = (id, content) => transaction(
   one(
     `

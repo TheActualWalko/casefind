@@ -8,6 +8,7 @@ import * as path from 'path';
 import * as compression from 'compression';
 import * as morgan from 'morgan';
 import * as proxy from 'express-http-proxy';
+import betaOnly from './beta-only';
 
 import bindApiCalls from './bind-api-calls';
 
@@ -48,11 +49,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 bindApiCalls(IS_DEV, EDITOR_ACCESS_CODE, app, db);
 
 app.get('/', (req, res) => {
-  if (req.cookies.accessCode === ACCESS_CODE) {
-    res.redirect('/search');
-  } else {
-    res.sendFile(path.resolve(__dirname, '../../beta/index.html'));
-  }
+  betaOnly(req.cookies.accessCode, db)
+    .then(() => {
+      res.redirect('/search');
+    })
+    .catch(() => {
+      res.sendFile(path.resolve(__dirname, '../../beta/index.html'));
+    });
 });
 app.get('/bg.jpg', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/bg.jpg')));
 app.get('/fb-sharing-image.png', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/fb-sharing-image.png')));
@@ -60,13 +63,6 @@ app.get('/jquery-3.1.1.min.js', (req, res) => res.sendFile(path.resolve(__dirnam
 app.get('/logo.png', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/logo.png')));
 app.get('/main.js', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/main.js')));
 app.get('/style.css', (req, res) => res.sendFile(path.resolve(__dirname, '../../beta/style.css')));
-app.post('/access/:code', (req, res) => {
-  if (req.params.code === ACCESS_CODE) {
-    res.send('valid');
-  } else {
-    res.send('invalid');
-  }
-});
 
 if (!IS_DEV || process.argv[2] === 'prod') {
   const reactRouterRoutes = [
@@ -77,11 +73,13 @@ if (!IS_DEV || process.argv[2] === 'prod') {
   ];
   reactRouterRoutes.forEach((r) => {
     app.get(r, (req, res, next) => {
-      if (req.cookies.accessCode === ACCESS_CODE) {
-        res.sendFile(path.resolve(__dirname, '../../client/build/index.html'))
-      } else {
-        res.redirect('/');
-      }
+      betaOnly(req.cookies.accessCode, db)
+        .then(() => {
+          res.sendFile(path.resolve(__dirname, '../../client/build/index.html'))
+        })
+        .catch(() => {
+          res.redirect('/');
+        });
     });
   });
 

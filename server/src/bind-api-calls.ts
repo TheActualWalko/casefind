@@ -30,6 +30,21 @@ const collectResultsIntoCases = (queryResult, preview = false) => {
 }
 
 export default (IS_DEV, EDITOR_ACCESS_CODE, app, db) => {
+  app.post('/access/:code', (req, res) => {
+    queries.getBetaUser(req.params.code)(db)
+      .then((results) => {
+        if (results.length > 0) {
+          res.send('valid');
+        } else {
+          res.send('invalid');
+        }
+      })
+      .catch((e) => {
+        res.send('invalid');
+      });
+  });
+
+
   app.get('/api/search/:query', (req, res) => {
     queries.search(req.params.query, JSON.parse(req.query.types))(db)
       .then((results) => collectResultsIntoCases(results, true))
