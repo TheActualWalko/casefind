@@ -141,13 +141,23 @@
 
 
 @media screen and (max-width: 760px) {
-  .case header .tab {
-    padding: 4px 10px 3px 10px;
+  .case {
+    padding-top: 0;
+  }
+  .case header {
+    border-top: 1px solid #ddd;
     display: block;
-    float: left;
+    height: auto;
+    position: relative;
+    z-index: 20;
+    margin: 0 0 20px 0;
+    width: 100%;
+  }
+  .case header .tab {
+    float: none;
+    display: inline-block;
+    padding: 6px 10px 5px 10px;
     border: 1px solid #ddd;
-    border-bottom: none;
-    margin-top: 15px;
-    margin-right: 10px;
+    margin: 4px;
   }
 }

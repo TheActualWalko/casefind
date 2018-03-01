@@ -90,14 +90,14 @@ export default connect(
             : <Embed name={embeds[activeEmbed].source} src={embeds[activeEmbed].embed} />
         }
         {
-          activeEmbed === false && forceExpanded
-            ? null
-            : <footer
+          activeEmbed === false && !forceExpanded
+            ? <footer
               key='footer'
               className='expand-prompt'
               onClick={() => this.toggleExpanded('full case notes text')}>
                 {expanded ? '- Minimize' : '+ Show full case notes'}
             </footer>
+            : null
         }
       </article>
     );
