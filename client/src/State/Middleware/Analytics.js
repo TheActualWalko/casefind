@@ -31,6 +31,10 @@ const trackSelectTab = (apiRoot, tabSource) => {
   track(apiRoot, 'selectTab', tabSource);
 }
 
+const trackRequestAdd = (apiRoot, query) => {
+  track(apiRoot, 'requestAdd', query);
+}
+
 let lastQuery = '';
 
 const middleware = ({dispatch, getState}) => (next) => (action) => {
@@ -50,6 +54,9 @@ const middleware = ({dispatch, getState}) => (next) => (action) => {
       break;
     case 'SELECT_TAB':
       trackSelectTab(apiRoot, action.payload);
+      break;
+    case 'REQUEST_ADD':
+      trackRequestAdd(apiRoot, action.payload);
       break;
     default:
       break;

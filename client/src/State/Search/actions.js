@@ -38,3 +38,8 @@ export const receiveResults = (query, types, results) => ({
   type: 'RECEIVE_RESULTS',
   payload: {query, types, results}
 });
+
+export const requestAdd = (query) => ({
+  type: 'REQUEST_ADD',
+  payload: query
+});

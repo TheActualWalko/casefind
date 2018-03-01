@@ -1,13 +1,15 @@
 .search {
   background-color: #eee;
   padding-top: 80px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   color: #222;
-  overflow: scroll;
+  min-height: 100vh;
+}
+
+.request-add-link {
+  font-weight: 700;
+  text-decoration: underline;
+  color: #d41e9a;
+  cursor: pointer;
 }
 
 .results {

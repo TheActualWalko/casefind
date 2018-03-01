@@ -7,6 +7,7 @@ export default (state = {
     decision: true,
     other: true
   },
+  requests: [],
   results: {}
 }, action) => {
   switch (action.type) {
@@ -30,6 +31,14 @@ export default (state = {
           ...state.results,
           [getResultKey(action.payload.query, action.payload.types)]: action.payload.results
         }
+      };
+    case 'REQUEST_ADD':
+      return {
+        ...state,
+        requests: [
+          ...state.requests,
+          action.payload
+        ]
       };
     default:
       return state;

@@ -14,3 +14,7 @@ export const results = createSelector(
   search,
   ({ results, query, types }) => results[getResultKey(query, types)]
 );
+export const requested = createSelector(
+  search,
+  ({ query, requests }) => query && requests.map(r => r.toLowerCase().trim()).includes(query.toLowerCase().trim())
+);

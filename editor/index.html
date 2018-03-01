@@ -143,6 +143,7 @@
         if (content === '<p><br></p>' || content === '<p></p>' || content === '<br>') {
           content = null;
         }
+        content = content.replace(/<p><br><\/p>/g, '');
         $.ajax({
           method: 'POST',
           url: 'http://casefind.org/api/save',

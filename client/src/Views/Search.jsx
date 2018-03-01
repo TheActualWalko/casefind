@@ -3,20 +3,25 @@ import Case from '../Components/Case';
 import AppHeader from '../Components/AppHeader';
 import './Search.css'
 import welcomeScreen from '../welcome-screen.svg';
-import { results, query, types } from '../State/Search/selectors';
-import { toggleType } from '../State/Search/actions';
+import { results, query, types, requested } from '../State/Search/selectors';
+import { toggleType, requestAdd } from '../State/Search/actions';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { push } from 'react-router-redux';
 
-const renderHeading = (results, query) => {
+const renderHeading = (results, query, requested, requestAdd) => {
+  const requestLine = <div><a className='request-add-link' onClick={() => requestAdd(query)}>Click here</a> if you believe "<em>{query}</em>" should be added to the database.</div>;
+  const requestedLine = <div><em>Thank you!</em> Your request to add "<em>{query}</em>" to the database has been received.</div>;
   if (!results && !query) {
     return null;
   } else if (!results && !!query) {
     return <span>Searching for "<em>{query}</em>"</span>
   } else if (results.length === 0) {
     return (
-      <span>Found no results for "<em>{query}</em>"</span>
+      [
+        <div key={1}><span>Found no results for "<em>{query}</em>"</span></div>,
+        requested ? requestedLine : requestLine
+      ]
     );
   } else if (results.length === 1) {
     return (
@@ -42,13 +47,13 @@ const WelcomeMessage = () => (
 );
 
 export default connect(
-  createStructuredSelector({results, query, types}),
-  { push, toggleType }
-)(({results, query, types, push, toggleType})=>(
+  createStructuredSelector({results, query, types, requested}),
+  { push, toggleType, requestAdd }
+)(({results, query, types, push, toggleType, requested, requestAdd})=>(
   <main className='search'>
     <AppHeader />
     <ul className='results'>
-      <li className='list-heading'>{renderHeading(results, query)}</li>
+      <li className='list-heading'>{renderHeading(results, query, requested, requestAdd)}</li>
       {
         results
         ? results.map((result) => <li key={result.id}><Case showQuery id={result.id} /></li>)

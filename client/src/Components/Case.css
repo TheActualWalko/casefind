@@ -7,6 +7,8 @@
   font-size: 22px;
   margin: 0 auto 30px auto;
   position: relative;
+  -webkit-overflow-scrolling:touch;
+  overflow:auto;
 }
 
 .case header {
@@ -19,6 +21,10 @@
   font-size: 16px;
   background-color: #f8f8f8;
   border-bottom: 1px solid #ddd;
+}
+
+.case article h4 {
+  letter-spacing: 2px;
 }
 
 .case header::-webkit-scrollbar {
@@ -64,7 +70,7 @@
 
 .case p {
   text-align: justify;
-  font-family: 'PT Serif';
+  font-family: 'EB Garamond';
   -webkit-font-smoothing: default;
   font-size: 18px;
   line-height: 150%;
@@ -80,8 +86,10 @@
   padding-bottom: 0;
   margin-bottom: -15px;
   width: 100%;
-  height: 60vh;
+  min-height: 60vh;
   border: 1px solid #eee;
+  -webkit-overflow-scrolling:touch;
+  overflow:auto;
 }
 
 
