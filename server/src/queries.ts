@@ -85,6 +85,11 @@ export const search = (searchText, types) => {
       WHERE (
         cases.content_id IS NOT NULL
         AND (
+          cases.tags = "tort"
+          OR
+          cases.tags = "contract"
+        )
+        AND (
           cases.name LIKE ?
           OR content.value LIKE ?
           OR cases.year LIKE ?
