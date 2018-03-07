@@ -74,6 +74,7 @@ export const search = (searchText, types) => {
         cases.year AS year,
         content.value AS content,
         embeds.url AS embed,
+        sources.id AS sourceId,
         sources.name AS source
       FROM cases
       LEFT JOIN content
@@ -125,6 +126,7 @@ export const search = (searchText, types) => {
         year: result.year,
         source: result.source,
         embed: result.embed,
+        sourceId: result.sourceId,
         preview
       }
     }
@@ -139,6 +141,7 @@ export const getCase = (id) => many(
       cases.year AS year,
       content.value AS content,
       embeds.url AS embed,
+      sources.id AS sourceId,
       sources.name AS source
     FROM cases
     LEFT JOIN content

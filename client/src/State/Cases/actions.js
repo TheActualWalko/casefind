@@ -5,7 +5,6 @@ export const receiveCase = (caseResult) => ({
   payload: caseResult
 });
 
-// analytics-only event
 export const setCaseExpanded = (buttonDescription, expanded) => ({
   type: 'SET_CASE_EXPANDED',
   payload: {
@@ -14,10 +13,14 @@ export const setCaseExpanded = (buttonDescription, expanded) => ({
   }
 });
 
-// analytics-only event
 export const selectTab = (source) => ({
   type: 'SELECT_TAB',
   payload: source,
+});
+
+export const reportIssue = (caseId, embed) => ({
+  type: 'REPORT_ISSUE',
+  payload: { caseId, embed }
 });
 
 export const loadFullCase = (id) => (dispatch, getState) => {

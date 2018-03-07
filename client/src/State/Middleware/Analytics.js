@@ -35,6 +35,10 @@ const trackRequestAdd = (apiRoot, query) => {
   track(apiRoot, 'requestAdd', query);
 }
 
+const trackReportIssue = (apiRoot, payload) => {
+  track(apiRoot, 'reportIssue', JSON.stringify(payload));
+}
+
 let lastQuery = '';
 
 const middleware = ({dispatch, getState}) => (next) => (action) => {
@@ -57,6 +61,9 @@ const middleware = ({dispatch, getState}) => (next) => (action) => {
       break;
     case 'REQUEST_ADD':
       trackRequestAdd(apiRoot, action.payload);
+      break;
+    case 'REPORT_ISSUE':
+      trackReportIssue(apiRoot, action.payload);
       break;
     default:
       break;

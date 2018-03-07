@@ -21,6 +21,7 @@ const collectResultsIntoCases = (queryResult, preview = false) => {
     const currentCase = casesById[r.caseId];
     if (r.embed && !currentCase.embeds.find((e) => e.embed === r.embed)) {
       currentCase.embeds.push({
+        id: r.sourceId,
         source: r.source,
         embed: r.embed
       });

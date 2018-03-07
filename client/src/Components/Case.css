@@ -23,6 +23,20 @@
   border-bottom: 1px solid #ddd;
 }
 
+.case .interactions {
+  margin: 0;
+}
+
+.case .interactions button {
+  border: 1px solid #999;
+  color: #999;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  float: right;
+  margin-bottom: -2px;
+}
+
 .case article h4 {
   letter-spacing: 2px;
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NoteHTML from './NoteHTML';
 import { query } from '../State/Search/selectors';
 import { caseSelector } from '../State/Cases/selectors';
-import { loadFullCase, setCaseExpanded, selectTab } from '../State/Cases/actions';
+import { loadFullCase, setCaseExpanded, selectTab, reportIssue } from '../State/Cases/actions';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { createStructuredSelector } from 'reselect';
@@ -12,7 +12,7 @@ const Embed = ({src, name}) => <iframe title={name} src={src} />;
 
 export default connect(
   createStructuredSelector({ selectedCase: caseSelector, query }),
-  { push, loadFullCase, setCaseExpanded, selectTab }
+  { push, loadFullCase, setCaseExpanded, selectTab, reportIssue }
 )(class Case extends Component {
   state = {
     expanded: false,
@@ -55,7 +55,7 @@ export default connect(
     this.props.selectTab('notes');
   }
   render() {
-    const {selectedCase, query, showQuery, push, forceExpanded} = this.props;
+    const {selectedCase, query, showQuery, push, forceExpanded, reportIssue} = this.props;
     const {expanded, activeEmbed} = this.state;
     if (!selectedCase) {
       return null;
@@ -76,6 +76,7 @@ export default connect(
               </button>
           }
         </header>
+        <div className='interactions'><button onClick={() => reportIssue(id, embeds[activeEmbed] ? embeds[activeEmbed].id : null)}>See a problem?</button></div>
         <h4>
           <a onClick={(e) => {
             e.stopPropagation();
