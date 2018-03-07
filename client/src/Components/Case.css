@@ -27,14 +27,24 @@
   margin: 0;
 }
 
+.case .interactions button,
+.case .interactions span {
+  font-size: 14px;
+  border: 1px solid transparent;
+  padding: 5px 10px;
+  float: right;
+  margin-bottom: -2px;
+}
+
 .case .interactions button {
   border: 1px solid #999;
   color: #999;
   border-radius: 3px;
-  padding: 5px 10px;
   cursor: pointer;
-  float: right;
-  margin-bottom: -2px;
+}
+
+.case .interactions span {
+  color: #999;
 }
 
 .case article h4 {

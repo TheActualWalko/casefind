@@ -18,9 +18,9 @@ export const selectTab = (source) => ({
   payload: source,
 });
 
-export const reportIssue = (caseId, embed) => ({
+export const reportIssue = (caseId, sourceId) => ({
   type: 'REPORT_ISSUE',
-  payload: { caseId, embed }
+  payload: { caseId, sourceId }
 });
 
 export const loadFullCase = (id) => (dispatch, getState) => {

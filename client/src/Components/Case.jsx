@@ -60,8 +60,9 @@ export default connect(
     if (!selectedCase) {
       return null;
     }
-    const {id, name, year, content, preview, embeds} = selectedCase;
+    const {id, name, year, content, preview, embeds, issuesReported} = selectedCase;
     const text = (expanded || forceExpanded ? (content || preview) : preview);
+    const sourceId = embeds[activeEmbed] ? embeds[activeEmbed].id : null;
     return (
       <article className='case'>
         <header>
@@ -76,7 +77,13 @@ export default connect(
               </button>
           }
         </header>
-        <div className='interactions'><button onClick={() => reportIssue(id, embeds[activeEmbed] ? embeds[activeEmbed].id : null)}>See a problem?</button></div>
+        <div className='interactions'>
+          {
+            issuesReported && issuesReported[sourceId]
+              ? <span>Issue reported!</span>
+              : <button onClick={() => reportIssue(id, sourceId)}>See a problem?</button>
+          }
+        </div>
         <h4>
           <a onClick={(e) => {
             e.stopPropagation();
