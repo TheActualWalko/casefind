@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NoteHTML from './NoteHTML';
+import Embed from './Embed';
 import { query } from '../State/Search/selectors';
 import { caseSelector } from '../State/Cases/selectors';
 import { loadFullCase, setCaseExpanded, selectTab, reportIssue } from '../State/Cases/actions';
@@ -7,8 +8,6 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { createStructuredSelector } from 'reselect';
 import './Case.css';
-
-const Embed = ({src, name}) => <iframe title={name} src={src} />;
 
 export default connect(
   createStructuredSelector({ selectedCase: caseSelector, query }),
@@ -95,7 +94,7 @@ export default connect(
         {
           activeEmbed === false
             ? <section><NoteHTML asParagraphs text={text} query={showQuery ? query : ''} /></section>
-            : <Embed name={embeds[activeEmbed].source} src={embeds[activeEmbed].embed} />
+            : <Embed title={embeds[activeEmbed].source} src={embeds[activeEmbed].embed} />
         }
         {
           activeEmbed === false && !forceExpanded

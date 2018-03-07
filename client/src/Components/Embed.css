@@ -1,0 +1,25 @@
+.embed-wrap {
+  position: relative;
+}
+
+.embed-wrap iframe {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.embed-wrap iframe.loading {
+  opacity: 0;
+}
+
+.embed-wrap .loading-bg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -16px;
+  margin-left: -16px;
+  background-image: url('../loading-spinner.gif');
+  width: 32px;
+  height: 32px;
+}

@@ -104,13 +104,18 @@
   line-height: 120%;
 }
 
-.case iframe {
+.case .embed-wrap {
+  width: 100%;
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 0;
-  margin-bottom: -15px;
+  margin-bottom: 0;
+}
+
+.case iframe {
   width: 100%;
   min-height: 60vh;
+  margin-bottom: -15px;
   border: 1px solid #eee;
   -webkit-overflow-scrolling:touch;
   overflow:auto;
