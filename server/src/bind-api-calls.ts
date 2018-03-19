@@ -68,13 +68,14 @@ export default (IS_DEV, EDITOR_ACCESS_CODE, app, db) => {
 
   app.post('/api/track', (req, res) => {
     const {action, data} = req.body;
+    const accessCode = req.cookies ? req.cookies.accessCode : null;
     iplocation(req.ip, (err, ipLocationResponse) => {
       if (err) {
         throw err;
       } else {
         const {latitude, longitude} = ipLocationResponse;
         queries
-          .track(IS_DEV, req.ip, latitude, longitude, action, data)(db)
+          .track(IS_DEV, req.ip, latitude, longitude, action, data, accessCode)(db)
           .then(() => res.send('success'));
       }
     });

@@ -75,7 +75,8 @@ export const search = (searchText, types) => {
         content.value AS content,
         embeds.url AS embed,
         sources.id AS sourceId,
-        sources.name AS source
+        sources.name AS source,
+        MATCH(cases.name) AGAINST (?) as nameScore
       FROM cases
       LEFT JOIN content
       ON (content.id = cases.content_id)
@@ -91,14 +92,15 @@ export const search = (searchText, types) => {
           cases.tags = "contract"
         )
         AND (
-          cases.name LIKE ?
-          OR content.value LIKE ?
-          OR cases.year LIKE ?
+          MATCH(cases.name) AGAINST (?)
+          OR
+          MATCH(content.value) AGAINST (?)
         )
       )
-      LIMIT 11;
+      ORDER BY nameScore DESC
+      LIMIT 30;
     `,
-    [`%${searchText}%`, `%${searchText}%`, `%${searchText}%`],
+    [searchText, searchText, searchText],
     (result) => {
       const textContent = result.content
         .replace(/<br\/?>/g, '\n')
@@ -155,7 +157,7 @@ export const getCase = (id) => many(
   [id]
 );
 
-export const track = (IS_DEV, ip, lat, lon, action, data) => one(
+export const track = (IS_DEV, ip, lat, lon, action, data, accessCode) => one(
   `
     INSERT INTO activity (
       dev,
@@ -163,17 +165,19 @@ export const track = (IS_DEV, ip, lat, lon, action, data) => one(
       lat,
       lon,
       action,
-      data
+      data,
+      user_id
     ) VALUES (
       ?,
       ?,
       ?,
       ?,
       ?,
-      ?
+      ?,
+      (SELECT id FROM users WHERE beta_access = ?)
     )
   `,
-  [IS_DEV ? 1 : 0, ip, lat, lon, action, data]
+  [IS_DEV ? 1 : 0, ip, lat, lon, action, data, accessCode]
 );
 
 export const getLastFortnightActivity = () => many(

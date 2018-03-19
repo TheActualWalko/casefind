@@ -19,7 +19,6 @@ class Embed extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
-      this.iframe.addClass('loading');
       this.setState({ loading: true });
     }
   }
